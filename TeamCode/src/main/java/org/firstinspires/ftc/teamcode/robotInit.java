@@ -14,13 +14,11 @@ public class robotInit {
     public DcMotor motorFR;
     public DcMotor motorBL;
     public DcMotor motorBR;
-
     public DcMotor armLift; //arm lifting mechanism
 
 
-    public CRServo freightSnatcher1; //freight claw 1
-    //public Servo freightSnatcher2; //freight claw 2
-    //public Servo ringFlicker; // potential carousel spinner
+    public CRServo spinner; // spins the motor to bring in the cone
+    public Servo closer; // keeps the cone in place
 
     //from Encoder Sample
     double     COUNTS_PER_MOTOR_REV    = 537.7 ;
@@ -50,7 +48,6 @@ public class robotInit {
         motorFR = hardwareMap.get(DcMotor.class, "motor_fr");
         motorBL = hardwareMap.get(DcMotor.class, "motor_bl");
         motorBR = hardwareMap.get(DcMotor.class, "motor_br");
-
         armLift = hardwareMap.get(DcMotor.class, "armLift");
 
         // Set the direction of the DC motors
@@ -58,7 +55,6 @@ public class robotInit {
         motorFR.setDirection(DcMotor.Direction.FORWARD);
         motorBL.setDirection(DcMotor.Direction.FORWARD);
         motorBR.setDirection(DcMotor.Direction.REVERSE);
-
         armLift.setDirection(DcMotor.Direction.FORWARD);
 
         // Set all DC motors to zero power
@@ -66,7 +62,6 @@ public class robotInit {
         motorBR.setPower(0);
         motorFR.setPower(0);
         motorFL.setPower(0);
-
         armLift.setPower(0);
 
 
@@ -76,14 +71,12 @@ public class robotInit {
         motorBL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorBR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorFR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
         armLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
         // Define and initialize ALL installed servos.
-        freightSnatcher1 = hardwareMap.get(CRServo.class, "freightSnatcher1");
-        //freightSnatcher2 = hardwareMap.get(Servo.class, "freightSnatcher2");
-
+        spinner = hardwareMap.get(CRServo.class, "spinner");
+        closer = hardwareMap.get(Servo.class, "closer");
 
         //init servos
         //freightSnatcher1.setPosition(0.72);
