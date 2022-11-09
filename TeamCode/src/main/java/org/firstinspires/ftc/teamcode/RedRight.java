@@ -24,23 +24,23 @@ public class RedRight extends LinearOpMode {
             double vertical = gamepad1.left_stick_y; //move forward, backward
             double horizontal = -gamepad1.left_stick_x; //move left, right
             double turn = -gamepad1.right_stick_x; //turn left, right
-            double armUp = gamepad1.right_trigger; // brings linear slides up
-            double armDown = -gamepad1.left_trigger; // brings linear slides down
+            double armUp = -gamepad1.right_trigger; // brings linear slides up
+            double armDown = gamepad1.left_trigger; // brings linear slides down
             boolean clamp = gamepad1.dpad_left; // clamps the closer servo
             boolean release = gamepad1.dpad_right; // release the closer servo
 
 
             //driving and arm control
-            robot.motorFL.setPower(vertical + horizontal + turn);
-            robot.motorFR.setPower(vertical - horizontal - turn);
-            robot.motorBL.setPower(vertical - horizontal + turn);
-            robot.motorBR.setPower(vertical + horizontal - turn);
+            robot.motorFL.setPower(vertical - horizontal - turn);
+            robot.motorFR.setPower(vertical - horizontal + turn);
+            robot.motorBL.setPower(vertical - horizontal - turn);
+            robot.motorBR.setPower(vertical - horizontal + turn);
             robot.armLift.setPower(armDown);
             robot.armLift.setPower(armUp);
 
             //clamp and release cone with closer servo
             if (clamp) {
-                robot.closer(.5); //clamp cone with closer servo
+                robot.closer.setPosition(.5); //clamp cone with closer servo
             }
             if (release) {
                 robot.closer.setPosition(.25); //release cone with closer servo

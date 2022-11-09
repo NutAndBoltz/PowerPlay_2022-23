@@ -3,6 +3,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.Servo;
 
 
 //@Disabled
@@ -24,7 +25,7 @@ public class robotInit {
     double     COUNTS_PER_MOTOR_REV    = 537.7 ;
     double     WHEEL_DIAMETER_INCHES   = 4.0 ;  // For figuring circumference
     double     COUNTS_PER_INCH         = COUNTS_PER_MOTOR_REV / (WHEEL_DIAMETER_INCHES * Math.PI);
-    double     DRIVE_SPEED             = 0.45;
+    double     DRIVE_SPEED             = 0.35;
     double     teleOP_FORWARD_SPEED    = 1;
 
     /* local OpMode members. */
