@@ -19,13 +19,13 @@ public class robotInit {
 
 
     public CRServo spinner; // spins the motor to bring in the cone
-    public Servo closer; // keeps the cone in place
+    public Servo closer; // clamp and release cone
 
     //from Encoder Sample
     double     COUNTS_PER_MOTOR_REV    = 537.7 ;
     double     WHEEL_DIAMETER_INCHES   = 4.0 ;  // For figuring circumference
     double     COUNTS_PER_INCH         = COUNTS_PER_MOTOR_REV / (WHEEL_DIAMETER_INCHES * Math.PI);
-    double     DRIVE_SPEED             = 0.35;
+    double     DRIVE_SPEED             = 0.15;
     double     teleOP_FORWARD_SPEED    = 1;
 
     /* local OpMode members. */
