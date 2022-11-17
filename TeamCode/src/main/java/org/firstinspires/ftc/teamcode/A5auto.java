@@ -5,9 +5,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-//ignore this
-
-
 //import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 //import org.opencv.core.Core;
 //import org.opencv.core.Mat;
@@ -42,15 +39,12 @@ public class A5auto extends LinearOpMode {
         telemetry.update();
         waitForStart();
 
-
-        // STEP 1 - Delivering duck on carousel
+        // STEP 1 - Drop the cone in the high junction
         strafeRight(20);
         moveForward(10);
         turnRight(15);
         raise(10);
-
-
-
+        strafeRight(5);
 
     }
 
