@@ -21,9 +21,9 @@ public class RedRight extends LinearOpMode {
 
         while (opModeIsActive()) {
 
-            double vertical = gamepad1.left_stick_y; //move forward, backward
-            double horizontal = -gamepad1.left_stick_x; //move left, right
-            double turn = -gamepad1.right_stick_x; //turn left, right
+            double vertical = 0.55*(gamepad1.left_stick_y); //move forward, backward
+            double horizontal = 0.55*(gamepad1.left_stick_x); //move left, right
+            double turn = 0.55*(-gamepad1.right_stick_x); //turn left, right
             double armUp = -gamepad1.right_trigger; // brings linear slides up
             double armDown = gamepad1.left_trigger; // brings linear slides down
             boolean clamp = gamepad1.dpad_left; // clamps the closer servo
@@ -32,27 +32,35 @@ public class RedRight extends LinearOpMode {
 
             //driving and arm control
             robot.motorFL.setPower(vertical + horizontal + turn);
-            robot.motorFR.setPower(vertical - horizontal - turn);
-            robot.motorBL.setPower(vertical - horizontal + turn);
-            robot.motorBR.setPower(vertical + horizontal - turn);
+            robot.motorFR.setPower(vertical + horizontal - turn);
+            robot.motorBL.setPower(vertical - horizontal - turn);
+            robot.motorBR.setPower(vertical - horizontal + turn);
             robot.armLift.setPower(armDown);
             robot.armLift.setPower(armUp);
 
             //clamp and release cone with closer servo
             if (clamp) {
                 robot.closer.setPosition(0); //clamp cone with closer servo
+                telemetry.addData("Path1",  "Clamp cone");
+                telemetry.update();
             }
             if (release) {
-                robot.closer.setPosition(-0.4); //release cone with closer servo
+                robot.closer.setPosition(0.7); //release cone with closer servo
+                telemetry.addData("Path1",  "Release cone");
+                telemetry.update();
             }
 
             //rotates counter-clockwise (spews out the cone)
             if (gamepad1.left_bumper) {
-                robot.spinner.setPower(0.8);
+                robot.spinner.setPower(0.5);
+                telemetry.addData("Path1",  "Release cone");
+                telemetry.update();
             }
             //rotates clockwise (brings in the cone)
             if (gamepad1.right_bumper) {
-                robot.spinner.setPower(.5);
+                robot.spinner.setPower(0.15);
+                telemetry.addData("Path1",  "Clamp cone");
+                telemetry.update();
             }
         }
     }

@@ -25,7 +25,7 @@ public class robotInit {
     double     COUNTS_PER_MOTOR_REV    = 537.7 ;
     double     WHEEL_DIAMETER_INCHES   = 4.0 ;  // For figuring circumference
     double     COUNTS_PER_INCH         = COUNTS_PER_MOTOR_REV / (WHEEL_DIAMETER_INCHES * Math.PI);
-    double     DRIVE_SPEED             = 0.15;
+    double     DRIVE_SPEED             = 0.35;
     double     teleOP_FORWARD_SPEED    = 1;
 
     /* local OpMode members. */
@@ -72,7 +72,7 @@ public class robotInit {
         motorBL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorBR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorFR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        armLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        armLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
         // Define and initialize ALL installed servos.
