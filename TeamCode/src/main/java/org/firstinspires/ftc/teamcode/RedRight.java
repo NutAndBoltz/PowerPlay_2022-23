@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-
+//ignore this
 @TeleOp
 public class RedRight extends LinearOpMode {
     public robotInit robot = new robotInit();
@@ -40,12 +40,12 @@ public class RedRight extends LinearOpMode {
 
             //clamp and release cone with closer servo
             if (clamp) {
-                robot.closer.setPosition(0); //clamp cone with closer servo
+                robot.closer.setPosition(0.8); //clamp cone with closer servo
                 telemetry.addData("Path1",  "Clamp cone");
                 telemetry.update();
             }
             if (release) {
-                robot.closer.setPosition(0.7); //release cone with closer servo
+                robot.closer.setPosition(0.2); //release cone with closer servo
                 telemetry.addData("Path1",  "Release cone");
                 telemetry.update();
             }
