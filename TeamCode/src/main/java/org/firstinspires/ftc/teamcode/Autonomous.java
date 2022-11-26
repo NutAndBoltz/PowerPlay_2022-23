@@ -27,7 +27,11 @@ public class A5auto extends LinearOpMode {
     public robotInit robot = new robotInit();
     ElapsedTime runtime = new ElapsedTime();
 
-
+        public const int LENGTH_OF_ROBOT = 18; //inches
+        public const int WIDTH_OF_ROBOT = 15; //inches
+        public const double CIRCUMFERENCE = WIDTH_OF_ROBOT * 2 * Math.PI;
+        public const double INCH_PER_DEGREE = CIRCUMFERENCE / 360;
+        public const double DISTANCE_BETWEEN_THE_CLAW_AND_JUNCTION_IN_INCHES = 3.8;
     @Override
     public void runOpMode() {
 
@@ -43,18 +47,44 @@ public class A5auto extends LinearOpMode {
         waitForStart();
 
 
+
+
+
+
         // STEP 1 - Delivering duck on carousel
-        strafeRight(20);
-        moveForward(10);
-        turnRight(15);
-        raise(10);
+      //  strafeRight(20);
+
+
+        moveForward(24-LENGTH_OF_ROBOT);
+        turnLeftDegree(45);
+
+        raise(20); // RANDOM number of COUNTS; MUST BE MAXIMUM
+        moveForward(DISTANCE_BETWEEN_THE_CLAW_AND_JUNCTION_IN_INCHES);
+        raise(-5);
+        openTheClaw();
+
+
+
 
 
 
 
     }
 
+    public void openTheClaw(){
+        robot.closer.setPosition(.25);
+    }
+    public voide closeTheClaw(){
+        robot.closer.setPosition(.5);
+    }
 
+    public void turnRightDegree(double degrees){
+       turnRight(INCH_PER_DEGREE * degrees);
+    }
+
+    public void turnLeftDegree(double degrees){
+        turnLeft(INCH_PER_DEGREE * degrees);
+    }
 
     // FUNCTION TO TURN RIGHT
     public void turnRight(double inches) {

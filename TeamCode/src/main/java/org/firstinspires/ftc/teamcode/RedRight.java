@@ -53,7 +53,7 @@ public class RedRight extends LinearOpMode {
             //rotates clockwise (brings in the cone)
             if (gamepad1.right_bumper) {
                 robot.spinner.setPower(0);
-            }
+//            }
 
 }
 
