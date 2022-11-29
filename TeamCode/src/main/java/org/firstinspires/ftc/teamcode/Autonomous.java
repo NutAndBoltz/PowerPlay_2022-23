@@ -5,26 +5,30 @@
 //import com.qualcomm.robotcore.hardware.DcMotor;
 //import com.qualcomm.robotcore.util.ElapsedTime;
 //
-////import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-////import org.opencv.core.Core;
-////import org.opencv.core.Mat;
-////import org.opencv.core.Point;
-////import org.opencv.core.Rect;
-////import org.opencv.core.Scalar;
-////import org.opencv.imgproc.Imgproc;
-////import org.openftc.easyopencv.OpenCvCamera;
-////import org.openftc.easyopencv.OpenCvCameraFactory;
-////import org.openftc.easyopencv.OpenCvCameraRotation;
-////import org.openftc.easyopencv.OpenCvPipeline;
+//import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+//import org.opencv.core.Core;
+//import org.opencv.core.Mat;
+//import org.opencv.core.Point;
+//import org.opencv.core.Rect;
+//import org.opencv.core.Scalar;
+//import org.opencv.imgproc.Imgproc;
+//import org.openftc.easyopencv.OpenCvCamera;
+//import org.openftc.easyopencv.OpenCvCameraFactory;
+//import org.openftc.easyopencv.OpenCvCameraRotation;
+//import org.openftc.easyopencv.OpenCvPipeline;
 //
 //
-//@Autonomous(name="Middle", group="Pushbot")
-//public class Middle extends LinearOpMode {
+//@Autonomous(name="A5auto", group="Pushbot")
+//public class A5auto extends LinearOpMode {
 //
 //    public robotInit robot = new robotInit();
 //    ElapsedTime runtime = new ElapsedTime();
 //
-//
+//        public const int LENGTH_OF_ROBOT = 18; //inches
+//        public const int WIDTH_OF_ROBOT = 15; //inches
+//        public const double CIRCUMFERENCE = WIDTH_OF_ROBOT * 2 * Math.PI;
+//        public const double INCH_PER_DEGREE = CIRCUMFERENCE / 360;
+//        public const double DISTANCE_BETWEEN_THE_CLAW_AND_JUNCTION_IN_INCHES = 3.8;
 //    @Override
 //    public void runOpMode() {
 //
@@ -39,17 +43,45 @@
 //        telemetry.update();
 //        waitForStart();
 //
-//        // STEP 1 - Drop the cone in the high junction
-//            moveForward(25);
-////        strafeRight(20);
-////        moveForward(10);
-////        turnRight(15);
-////        raise(10);
-////        strafeRight(5);
+//
+//
+//
+//
+//
+//        // STEP 1 - Delivering duck on carousel
+//      //  strafeRight(20);
+//
+//
+//        moveForward(24-LENGTH_OF_ROBOT);
+//        turnLeftDegree(45);
+//
+//        raise(20); // RANDOM number of COUNTS; MUST BE MAXIMUM
+//        moveForward(DISTANCE_BETWEEN_THE_CLAW_AND_JUNCTION_IN_INCHES);
+//        raise(-5);
+//        openTheClaw();
+//
+//
+//
+//
+//
+//
 //
 //    }
 //
+//    public void openTheClaw(){
+//        robot.closer.setPosition(.25);
+//    }
+//    public void closeTheClaw(){
+//        robot.closer.setPosition(.5);
+//    }
 //
+//    public void turnRightDegree(double degrees){
+//       turnRight(INCH_PER_DEGREE * degrees);
+//    }
+//
+//    public void turnLeftDegree(double degrees){
+//        turnLeft(INCH_PER_DEGREE * degrees);
+//    }
 //
 //    // FUNCTION TO TURN RIGHT
 //    public void turnRight(double inches) {
@@ -308,21 +340,21 @@
 //
 //
 //
-////        //RAISE ARM FUNCTION
-//        public void raise(double count) {
+//    //        //RAISE ARM FUNCTION
+//    public void raise(double count) {
 //
-//            int newArmLiftTarget;
+//        int newArmLiftTarget;
 //
-//            // Determine new target position, and pass to motor controller
-//            newArmLiftTarget = robot.armLift.getCurrentPosition() + (int) (count);
-//            robot.armLift.setTargetPosition(newArmLiftTarget);
+//        // Determine new target position, and pass to motor controller
+//        newArmLiftTarget = robot.armLift.getCurrentPosition() + (int) (count);
+//        robot.armLift.setTargetPosition(newArmLiftTarget);
 //
-//            // Turn On RUN_TO_POSITION
-//            robot.armLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        // Turn On RUN_TO_POSITION
+//        robot.armLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 //
-//            robot.armLift.setPower(Math.abs(robot.DRIVE_SPEED));
+//        robot.armLift.setPower(Math.abs(robot.DRIVE_SPEED));
 //
-//        }
+//    }
 //
 //
 //
