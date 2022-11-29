@@ -16,6 +16,7 @@ public class robotInit {
     public DcMotor motorBL;
     public DcMotor motorBR;
     public DcMotor armLift; //arm lifting mechanism
+ //   public DcMotor waiter; //the thing that spins the arm like a turntable
 
 
     public CRServo spinner; // spins the motor to bring in the cone
@@ -50,13 +51,15 @@ public class robotInit {
         motorBL = hardwareMap.get(DcMotor.class, "motor_bl");
         motorBR = hardwareMap.get(DcMotor.class, "motor_br");
         armLift = hardwareMap.get(DcMotor.class, "armLift");
+ //       waiter = hardwareMap.get(DcMotor.class, "waiter");
 
         // Set the direction of the DC motors
         motorFL.setDirection(DcMotor.Direction.REVERSE);
         motorFR.setDirection(DcMotor.Direction.FORWARD);
-        motorBL.setDirection(DcMotor.Direction.FORWARD);
-        motorBR.setDirection(DcMotor.Direction.REVERSE);
+        motorBL.setDirection(DcMotor.Direction.REVERSE);
+        motorBR.setDirection(DcMotor.Direction.FORWARD);
         armLift.setDirection(DcMotor.Direction.FORWARD);
+ //       waiter.setDirection(DcMotor.Direction.REVERSE);
 
         // Set all DC motors to zero power
         motorBL.setPower(0);
@@ -64,6 +67,7 @@ public class robotInit {
         motorFR.setPower(0);
         motorFL.setPower(0);
         armLift.setPower(0);
+        //      waiter.setPower(0);
 
 
         // Set all motors to run without encoders.
@@ -73,6 +77,7 @@ public class robotInit {
         motorBR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorFR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         armLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+  //      waiter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
         // Define and initialize ALL installed servos.
