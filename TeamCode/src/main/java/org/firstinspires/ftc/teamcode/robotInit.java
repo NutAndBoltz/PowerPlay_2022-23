@@ -13,7 +13,7 @@ public class robotInit {
     //creating objects
     public DcMotor motorFL;
     public DcMotor motorFR;
-//    public DcMotor motorBL;
+    public DcMotor motorBL;
     public DcMotor motorBR;
     public DcMotor armLift; //arm lifting mechanism
     public DcMotor waiter; //the thing that spins the arm like a turntable
@@ -48,7 +48,7 @@ public class robotInit {
         // Define and Initialize Motors
         motorFL = hardwareMap.get(DcMotor.class, "motor_fl");
         motorFR = hardwareMap.get(DcMotor.class, "motor_fr");
-//        motorBL = hardwareMap.get(DcMotor.class, "motor_bl");
+        motorBL = hardwareMap.get(DcMotor.class, "motor_bl");
         motorBR = hardwareMap.get(DcMotor.class, "motor_br");
         armLift = hardwareMap.get(DcMotor.class, "armLift");
         waiter = hardwareMap.get(DcMotor.class, "waiter");
@@ -56,13 +56,13 @@ public class robotInit {
         // Set the direction of the DC motors
         motorFL.setDirection(DcMotor.Direction.REVERSE);
         motorFR.setDirection(DcMotor.Direction.FORWARD);
-//        motorBL.setDirection(DcMotor.Direction.REVERSE);
+        motorBL.setDirection(DcMotor.Direction.REVERSE);
         motorBR.setDirection(DcMotor.Direction.FORWARD);
         armLift.setDirection(DcMotor.Direction.FORWARD);
         waiter.setDirection(DcMotor.Direction.REVERSE);
 
         // Set all DC motors to zero power
-//        motorBL.setPower(0);
+        motorBL.setPower(0);
         motorBR.setPower(0);
         motorFR.setPower(0);
         motorFL.setPower(0);
@@ -73,7 +73,7 @@ public class robotInit {
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
         motorFL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//        motorBL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorBL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorBR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorFR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         armLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
