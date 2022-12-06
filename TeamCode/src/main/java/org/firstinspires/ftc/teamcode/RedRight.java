@@ -35,8 +35,8 @@ public class RedRight extends LinearOpMode {
             robot.motorFR.setPower(vertical - horizontal + turn);
             robot.motorBL.setPower(vertical - horizontal - turn);
             robot.motorBR.setPower(vertical - horizontal + turn);
-            robot.armLift.setPower(armDown);
-            robot.armLift.setPower(armUp);
+//            robot.armLift.setPower(armDown);
+//            robot.armLift.setPower(armUp);
 
             //clamp and release cone with closer servo
             if (clamp) {
@@ -47,16 +47,18 @@ public class RedRight extends LinearOpMode {
             }
 
             //rotates counter-clockwise (spews out the cone)
-            if (gamepad1.left_bumper) {
-                robot.spinner.setPower(0.5);
-            }
-            //rotates clockwise (brings in the cone)
-            if (gamepad1.right_bumper) {
-                robot.spinner.setPower(0);
+//            if (gamepad1.left_bumper) {
+//                robot.spinner.setPower(0.5);
 //            }
+//            //rotates clockwise (brings in the cone)
+//            if (gamepad1.right_bumper) {
+//                robot.spinner.setPower(0);
+////            }
 
-}
-
+            }
+        }
+    }
+//}
 
 
 
@@ -103,5 +105,3 @@ public class RedRight extends LinearOpMode {
 //            telemetry.update();
 //        }
 
-    }
-}

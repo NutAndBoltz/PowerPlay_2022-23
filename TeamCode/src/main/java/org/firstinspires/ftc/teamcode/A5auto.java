@@ -1,24 +1,9 @@
-package org.firstinspires.ftc.teamcode;
-
+ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-//ignore this
-
-
-//import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-//import org.opencv.core.Core;
-//import org.opencv.core.Mat;
-//import org.opencv.core.Point;
-//import org.opencv.core.Rect;
-//import org.opencv.core.Scalar;
-//import org.opencv.imgproc.Imgproc;
-//import org.openftc.easyopencv.OpenCvCamera;
-//import org.openftc.easyopencv.OpenCvCameraFactory;
-//import org.openftc.easyopencv.OpenCvCameraRotation;
-//import org.openftc.easyopencv.OpenCvPipeline;
 
 
 @Autonomous(name="A5auto", group="Pushbot")
@@ -27,11 +12,12 @@ public class A5auto extends LinearOpMode {
     public robotInit robot = new robotInit();
     ElapsedTime runtime = new ElapsedTime();
 
-        public const int LENGTH_OF_ROBOT = 18; //inches
-        public const int WIDTH_OF_ROBOT = 15; //inches
-        public const double CIRCUMFERENCE = WIDTH_OF_ROBOT * 2 * Math.PI;
-        public const double INCH_PER_DEGREE = CIRCUMFERENCE / 360;
-        public const double DISTANCE_BETWEEN_THE_CLAW_AND_JUNCTION_IN_INCHES = 3.8;
+        public int LENGTH_OF_ROBOT = 18; //inches
+        public int WIDTH_OF_ROBOT = 15; //inches
+        public int SQUARE_LENGTH = 24; //inches
+        public double CIRCUMFERENCE = WIDTH_OF_ROBOT * 2 * Math.PI;
+        public double INCH_PER_DEGREE = CIRCUMFERENCE / 360;
+        public double DISTANCE_BETWEEN_THE_CLAW_AND_JUNCTION_IN_INCHES = 3.8;
     @Override
     public void runOpMode() {
 
@@ -46,22 +32,20 @@ public class A5auto extends LinearOpMode {
         telemetry.update();
         waitForStart();
 
+        //A5 Autonomous code
 
-
-
-
-
-        // STEP 1 - Delivering duck on carousel
-      //  strafeRight(20);
-
-
+        strafeRight(SQUARE_LENGTH*1);
+        moveForward(SQUARE_LENGTH*2);
+        strafeLeft(SQUARE_LENGTH/2);
+        raise(20);
         moveForward(24-LENGTH_OF_ROBOT);
-        turnLeftDegree(45);
-
-        raise(20); // RANDOM number of COUNTS; MUST BE MAXIMUM
-        moveForward(DISTANCE_BETWEEN_THE_CLAW_AND_JUNCTION_IN_INCHES);
-        raise(-5);
         openTheClaw();
+//        turnLeftDegree(45);
+
+//        raise(20); // RANDOM number of COUNTS; MUST BE MAXIMUM
+//        moveForward(DISTANCE_BETWEEN_THE_CLAW_AND_JUNCTION_IN_INCHES);
+//    //        raise(-5);
+    //        openTheClaw();
 
 
 
@@ -74,7 +58,7 @@ public class A5auto extends LinearOpMode {
     public void openTheClaw(){
         robot.closer.setPosition(.25);
     }
-    public voide closeTheClaw(){
+    public void closeTheClaw(){
         robot.closer.setPosition(.5);
     }
 
@@ -329,7 +313,7 @@ public class A5auto extends LinearOpMode {
         robot.motorFR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.motorBL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.motorBR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.armLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        robot.armLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
     public void startEncoderMode()
     {
@@ -338,12 +322,12 @@ public class A5auto extends LinearOpMode {
         robot.motorFR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.motorBL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.motorBR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.armLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        robot.armLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
 
 
-    //        //RAISE ARM FUNCTION
+            //RAISE ARM FUNCTION
     public void raise(double count) {
 
         int newArmLiftTarget;

@@ -15,10 +15,10 @@ public class robotInit {
     public DcMotor motorFR;
     public DcMotor motorBL;
     public DcMotor motorBR;
-    public DcMotor armLift; //arm lifting mechanism
+//    public DcMotor armLift; //arm lifting mechanism
 
 
-    public CRServo spinner; // spins the motor to bring in the cone
+//    public CRServo spinner; // spins the motor to bring in the cone
     public Servo closer; // keeps the cone in place
 
     //from Encoder Sample
@@ -56,7 +56,7 @@ public class robotInit {
         motorFR.setDirection(DcMotor.Direction.FORWARD);
         motorBL.setDirection(DcMotor.Direction.FORWARD);
         motorBR.setDirection(DcMotor.Direction.REVERSE);
-        armLift.setDirection(DcMotor.Direction.FORWARD);
+        armLift.setDirection(DcMotor.Direction.FORWARD); //Not sure which direction
 
         // Set all DC motors to zero power
         motorBL.setPower(0);
@@ -72,11 +72,10 @@ public class robotInit {
         motorBL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorBR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorFR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        armLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        armLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
         // Define and initialize ALL installed servos.
-        spinner = hardwareMap.get(CRServo.class, "spinner");
         closer = hardwareMap.get(Servo.class, "closer");
 
         //init servos
