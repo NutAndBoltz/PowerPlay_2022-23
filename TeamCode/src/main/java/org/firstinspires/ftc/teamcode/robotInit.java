@@ -50,6 +50,7 @@ public class robotInit {
         motorBL = hardwareMap.get(DcMotor.class, "motor_bl");
         motorBR = hardwareMap.get(DcMotor.class, "motor_br");
         armLift = hardwareMap.get(DcMotor.class, "armLift");
+        spinner = hardwareMap.get(DcMotor.class, "spinner");
 
         // Set the direction of the DC motors
         motorFL.setDirection(DcMotor.Direction.REVERSE);
@@ -57,6 +58,8 @@ public class robotInit {
         motorBL.setDirection(DcMotor.Direction.FORWARD);
         motorBR.setDirection(DcMotor.Direction.REVERSE);
         armLift.setDirection(DcMotor.Direction.FORWARD); //Not sure which direction
+        spinner.setDirection(DcMotor.Direction.FORWARD); //Not sure which direction
+
 
         // Set all DC motors to zero power
         motorBL.setPower(0);
@@ -64,6 +67,7 @@ public class robotInit {
         motorFR.setPower(0);
         motorFL.setPower(0);
         armLift.setPower(0);
+        spinner.setPower(0);
 
 
         // Set all motors to run without encoders.
@@ -72,7 +76,8 @@ public class robotInit {
         motorBL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorBR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorFR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//        armLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        spinner.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); // Not sure
+        armLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); //Not sure
 
 
         // Define and initialize ALL installed servos.

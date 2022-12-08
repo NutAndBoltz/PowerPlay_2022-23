@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 
 
-@Autonomous(name="A2auto", group="Pushbot")
+@Autonomous(name="A5auto", group="Pushbot")
 public class A5auto extends LinearOpMode {
 
     public robotInit robot = new robotInit();
@@ -14,6 +14,7 @@ public class A5auto extends LinearOpMode {
 
         public int LENGTH_OF_ROBOT = 18; //inches
         public int WIDTH_OF_ROBOT = 15; //inches
+        public int SQUARE_LENGTH = 24; //inches
         public double CIRCUMFERENCE = WIDTH_OF_ROBOT * 2 * Math.PI;
         public double INCH_PER_DEGREE = CIRCUMFERENCE / 360;
         public double DISTANCE_BETWEEN_THE_CLAW_AND_JUNCTION_IN_INCHES = 3.8;
@@ -31,17 +32,19 @@ public class A5auto extends LinearOpMode {
         telemetry.update();
         waitForStart();
 
+        //A5 Autonomous code
 
+        strafeRight(SQUARE_LENGTH*1);
+        moveForward(SQUARE_LENGTH*1);
+        strafeRight(SQUARE_LENGTH*0.5);
 
-
-
-
-        // STEP 1 - Delivering duck on carousel
-      //  strafeRight(20);
-
-
+        raise(20);
         moveForward(24-LENGTH_OF_ROBOT);
-        turnLeftDegree(45);
+        openTheClaw();
+
+
+
+        //        turnLeftDegree(45);
 
 //        raise(20); // RANDOM number of COUNTS; MUST BE MAXIMUM
 //        moveForward(DISTANCE_BETWEEN_THE_CLAW_AND_JUNCTION_IN_INCHES);
@@ -56,12 +59,12 @@ public class A5auto extends LinearOpMode {
 
     }
 
-//    public void openTheClaw(){
-//        robot.closer.setPosition(.25);
-//    }
-//    public void closeTheClaw(){
-//        robot.closer.setPosition(.5);
-//    }
+    public void openTheClaw(){
+        robot.closer.setPosition(.25);
+    }
+    public void closeTheClaw(){
+        robot.closer.setPosition(.5);
+    }
 
     public void turnRightDegree(double degrees){
        turnRight(INCH_PER_DEGREE * degrees);
@@ -71,6 +74,29 @@ public class A5auto extends LinearOpMode {
         turnLeft(INCH_PER_DEGREE * degrees);
     }
 
+
+    //FUNCTION TO SPIN THE SLIDER
+    public void spin(double degrees){
+
+        int inches = INCH_PER_DEGREE * degrees;
+        int newmotorSpinnerTarget;
+
+        // Determine new target position, and pass to motor controller
+        newmotorSpinnerTarget = robot.spinner.getCurrentPosition() - (int) (inches * robot.COUNTS_PER_INCH);
+        robot.spinner.setTargetPosition(newmotorSpinnerTarget);
+
+        // Turn On RUN_TO_POSITION
+        // robot moves to set position
+        robot.spinner.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        robot.spinner.setPower(Math.abs(robot.DRIVE_SPEED));
+        runtime.reset();
+        while (opModeIsActive() && (robot.spinner.isBusy()) {
+            // Display it for the driver.
+            telemetry.addData("Path1", "Spinning to: %7d", newmotorSpinnerTarget);
+            telemetry.update();
+        }
+    }
     // FUNCTION TO TURN RIGHT
     public void turnRight(double inches) {
         int newmotorFLTarget;
@@ -328,21 +354,21 @@ public class A5auto extends LinearOpMode {
 
 
 
-    //        //RAISE ARM FUNCTION
-//    public void raise(double count) {
-//
-//        int newArmLiftTarget;
-//
-//        // Determine new target position, and pass to motor controller
-//        newArmLiftTarget = robot.armLift.getCurrentPosition() + (int) (count);
-//        robot.armLift.setTargetPosition(newArmLiftTarget);
-//
-//        // Turn On RUN_TO_POSITION
-//        robot.armLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//
-//        robot.armLift.setPower(Math.abs(robot.DRIVE_SPEED));
-//
-//    }
+            //RAISE ARM FUNCTION
+    public void raise(double count) {
+
+        int newArmLiftTarget;
+
+        // Determine new target position, and pass to motor controller
+        newArmLiftTarget = robot.armLift.getCurrentPosition() + (int) (count);
+        robot.armLift.setTargetPosition(newArmLiftTarget);
+
+        // Turn On RUN_TO_POSITION
+        robot.armLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        robot.armLift.setPower(Math.abs(robot.DRIVE_SPEED));
+
+    }
 
 
 

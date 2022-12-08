@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 
 
-@Autonomous(name="A5auto", group="Pushbot")
+@Autonomous(name="A2auto", group="Pushbot")
 public class A5auto extends LinearOpMode {
 
     public robotInit robot = new robotInit();
@@ -32,20 +32,14 @@ public class A5auto extends LinearOpMode {
         telemetry.update();
         waitForStart();
 
-        //A5 Autonomous code
+        //Autonomous A2 code
+        strafeLeft(SQUARE_LENGTH*1);
+        moveForward(SQUARE_LENGTH*1);
+        strafeLeft(SQUARE_LENGTH*0.5);
 
-        strafeRight(SQUARE_LENGTH*1);
-        moveForward(SQUARE_LENGTH*2);
-        strafeLeft(SQUARE_LENGTH/2);
         raise(20);
         moveForward(24-LENGTH_OF_ROBOT);
         openTheClaw();
-//        turnLeftDegree(45);
-
-//        raise(20); // RANDOM number of COUNTS; MUST BE MAXIMUM
-//        moveForward(DISTANCE_BETWEEN_THE_CLAW_AND_JUNCTION_IN_INCHES);
-//    //        raise(-5);
-    //        openTheClaw();
 
 
 
@@ -55,12 +49,12 @@ public class A5auto extends LinearOpMode {
 
     }
 
-    public void openTheClaw(){
-        robot.closer.setPosition(.25);
-    }
-    public void closeTheClaw(){
-        robot.closer.setPosition(.5);
-    }
+//    public void openTheClaw(){
+//        robot.closer.setPosition(.25);
+//    }
+//    public void closeTheClaw(){
+//        robot.closer.setPosition(.5);
+//    }
 
     public void turnRightDegree(double degrees){
        turnRight(INCH_PER_DEGREE * degrees);
@@ -327,21 +321,21 @@ public class A5auto extends LinearOpMode {
 
 
 
-            //RAISE ARM FUNCTION
-    public void raise(double count) {
-
-        int newArmLiftTarget;
-
-        // Determine new target position, and pass to motor controller
-        newArmLiftTarget = robot.armLift.getCurrentPosition() + (int) (count);
-        robot.armLift.setTargetPosition(newArmLiftTarget);
-
-        // Turn On RUN_TO_POSITION
-        robot.armLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        robot.armLift.setPower(Math.abs(robot.DRIVE_SPEED));
-
-    }
+    //        //RAISE ARM FUNCTION
+//    public void raise(double count) {
+//
+//        int newArmLiftTarget;
+//
+//        // Determine new target position, and pass to motor controller
+//        newArmLiftTarget = robot.armLift.getCurrentPosition() + (int) (count);
+//        robot.armLift.setTargetPosition(newArmLiftTarget);
+//
+//        // Turn On RUN_TO_POSITION
+//        robot.armLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//
+//        robot.armLift.setPower(Math.abs(robot.DRIVE_SPEED));
+//
+//    }
 
 
 
