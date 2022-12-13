@@ -15,6 +15,8 @@ public class robotInit {
     public DcMotor motorFR;
     public DcMotor motorBL;
     public DcMotor motorBR;
+    public DcMotor armLift;
+    public DcMotor spinner;
 //    public DcMotor armLift; //arm lifting mechanism
 
 
