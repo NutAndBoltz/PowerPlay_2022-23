@@ -23,7 +23,7 @@ public class RedRight extends LinearOpMode {
             double turn = 0.55*(-gamepad2.right_stick_x); //turn left, right
             double armUp = -gamepad1.right_trigger; // brings linear slides up
             double armDown = gamepad1.left_trigger; // brings linear slides down
-            double turntable = 0.15*(gamepad1.right_stick_x); // turning on the turntable
+            double turntable = 0.15*(-gamepad1.right_stick_x); // turning on the turntable
             boolean clamp = gamepad1.right_bumper; // clamps the closer servo
             boolean release = gamepad1.left_bumper; // release the closer servo
 
@@ -34,22 +34,28 @@ public class RedRight extends LinearOpMode {
             robot.motorFR.setPower(vertical + horizontal + turn);
             robot.motorBL.setPower(vertical + horizontal - turn);
             robot.motorBR.setPower(vertical - horizontal + turn);
-            robot.armLift.setPower(armDown + armUp);
-//            robot.armLift.setPower(armUp);
+            robot.armLiftLeft.setPower(armDown + armUp);
+            robot.armLiftRight.setPower(armDown + armUp);
             robot.waiter.setPower(turntable);
 
 
             //clamp and release cone with closer servo
             if (clamp) {
-                robot.closer.setPosition(0.95); //clamp cone with closer servo
+                robot.closer.setPosition(1.00); //clamp cone with closer servo
                 telemetry.addData("Path1",  "clamp pressed");
                 telemetry.update();
             }
             if (release) {
-                robot.closer.setPosition(0.6); //release cone with closer servo
+                robot.closer.setPosition(0.7); //release cone with closer servo
                 telemetry.addData("Path1",  "Release pressed");
                 telemetry.update();
             }
+
+//turntable 90 degrees, one to the left and the other the right.
+//three levels of the arm
+//Miles: arm; Keshav: turntable
+//
+
 
 //            //rotates counter-clockwise (spews out the cone)
 //            if (gamepad2.left_bumper) {
@@ -63,8 +69,6 @@ public class RedRight extends LinearOpMode {
 //                telemetry.addData("Path1",  "Clamp cone");
 //                telemetry.update();
 //            }
-
-
         }
     }
 }

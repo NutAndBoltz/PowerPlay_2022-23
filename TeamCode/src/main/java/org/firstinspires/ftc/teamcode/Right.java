@@ -18,8 +18,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 //import org.openftc.easyopencv.OpenCvPipeline;
 
 
-@Autonomous(name="Left", group="Pushbot")
-public class Left extends LinearOpMode {
+@Autonomous(name="Right", group="Pushbot")
+public class Right extends LinearOpMode {
 
     public robotInit robot = new robotInit();
     ElapsedTime runtime = new ElapsedTime();
@@ -40,9 +40,10 @@ public class Left extends LinearOpMode {
         waitForStart();
 
         // STEP 1 - Drop the cone in the high junction
-        strafeLeft(30);
-        strafeRight(5);
+        strafeRight(30);
+        strafeLeft(5);
         moveForward(30);
+        strafeLeft(55);
 //        turnRight(20);
 //        moveForward(20);
 //        strafeRight(20);

@@ -15,7 +15,8 @@ public class robotInit {
     public DcMotor motorFR;
     public DcMotor motorBL;
     public DcMotor motorBR;
-    public DcMotor armLift; //arm lifting mechanism
+    public DcMotor armLiftLeft; //arm lifting mechanism
+    public DcMotor armLiftRight; //arm lifting mechanism
     public DcMotor waiter; //the thing that spins the arm like a turntable
 
 
@@ -50,7 +51,8 @@ public class robotInit {
         motorFR = hardwareMap.get(DcMotor.class, "motor_fr");
         motorBL = hardwareMap.get(DcMotor.class, "motor_bl");
         motorBR = hardwareMap.get(DcMotor.class, "motor_br");
-        armLift = hardwareMap.get(DcMotor.class, "armLift");
+        armLiftLeft = hardwareMap.get(DcMotor.class, "armLiftLeft");
+        armLiftRight = hardwareMap.get(DcMotor.class, "armLiftRight");
         waiter = hardwareMap.get(DcMotor.class, "waiter");
 
         // Set the direction of the DC motors
@@ -58,7 +60,8 @@ public class robotInit {
         motorFR.setDirection(DcMotor.Direction.FORWARD);
         motorBL.setDirection(DcMotor.Direction.REVERSE);
         motorBR.setDirection(DcMotor.Direction.FORWARD);
-        armLift.setDirection(DcMotor.Direction.FORWARD);
+        armLiftLeft.setDirection(DcMotor.Direction.FORWARD);
+        armLiftRight.setDirection(DcMotor.Direction.FORWARD);
         waiter.setDirection(DcMotor.Direction.REVERSE);
 
         // Set all DC motors to zero power
@@ -66,7 +69,8 @@ public class robotInit {
         motorBR.setPower(0);
         motorFR.setPower(0);
         motorFL.setPower(0);
-        armLift.setPower(0);
+        armLiftLeft.setPower(0);
+        armLiftRight.setPower(0);
         waiter.setPower(0);
 
 
@@ -76,7 +80,8 @@ public class robotInit {
         motorBL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorBR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorFR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        armLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        armLiftLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        armLiftRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         waiter.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
