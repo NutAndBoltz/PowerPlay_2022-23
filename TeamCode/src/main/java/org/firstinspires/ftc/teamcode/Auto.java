@@ -85,12 +85,14 @@ public class Auto extends LinearOpMode {
 
                 location = 2;
 
-            } else {
+            } else if (pipeline.position == DeterminationPipeline.SleevePosition.THREE){
                 telemetry.addData("Detected", "location 3!");
                 telemetry.update();
 
                 location = 3;
 
+            } else {
+                telemetry.addData("Detected", "Unknown position");
             }
             sleep(1000);
 
@@ -100,21 +102,26 @@ public class Auto extends LinearOpMode {
                 telemetry.update();
 
              //strafe left
+             moveLeft(24);
 
              //drive forward
+             moveForward(24);
 
             } else if (location == 2) {
                 telemetry.addData("Moving to", "level 2!");
                 telemetry.update();
 
              //drive forward
+             moveForward(24);
 
             } else {
                 telemetry.addData("Moving to", "level 3!");
 
              //strafe right
+             moveRight(24);
 
              //drive forward
+             moveForward(24);
 
             }
 
@@ -434,7 +441,7 @@ public class Auto extends LinearOpMode {
     }
 
 
-    /* VUFORIA CUSTOM SLEEVE DETECTION */
+    /* CUSTOM SLEEVE DETECTION */
     public static class DeterminationPipeline extends OpenCvPipeline
     {
         /*
@@ -461,8 +468,8 @@ public class Auto extends LinearOpMode {
         static final int REGION_WIDTH = 50;
         static final int REGION_HEIGHT = 50;
 
-        final int ONE_POSITION_THRESHOLD = 135; //143-148
-        final int THREE_POSITION_THRESHOLD = 135; //143-148
+        final int THREE_POSITION_THRESHOLD = 135;
+        final int TWO_POSITION_THRESHOLD = 100;
 
         Point region1_pointA = new Point(
                 REGION1_TOPLEFT_ANCHOR_POINT.x,
@@ -480,6 +487,7 @@ public class Auto extends LinearOpMode {
         int avg1;
 
         // Volatile since accessed by OpMode thread w/o synchronization
+        //Create position object and set default value
         public volatile SleevePosition position = SleevePosition.ONE;
 
         /*
@@ -514,13 +522,13 @@ public class Auto extends LinearOpMode {
                     BLUE, // The color the rectangle is drawn in
                     2); // Thickness of the rectangle lines
 
-            position = SleevePosition.ONE; // Record our analysis
-            if(avg1 > ONE_POSITION_THRESHOLD){
-                position = SleevePosition.ONE;
-            }else if (avg1 > THREE_POSITION_THRESHOLD){
+            // Record our analysis
+            if(avg1 > THREE_POSITION_THRESHOLD){
                 position = SleevePosition.THREE;
-            }else{
+            }else if (avg1 > TWO_POSITION_THRESHOLD){
                 position = SleevePosition.TWO;
+            }else{
+                position = SleevePosition.ONE;
             }
 
             Imgproc.rectangle(
