@@ -468,7 +468,7 @@ public class Auto extends LinearOpMode {
         static final int REGION_WIDTH = 50;
         static final int REGION_HEIGHT = 50;
 
-        final int ONE_POSITION_THRESHOLD = 135;
+        final int THREE_POSITION_THRESHOLD = 135;
         final int TWO_POSITION_THRESHOLD = 100;
 
         Point region1_pointA = new Point(
@@ -523,12 +523,12 @@ public class Auto extends LinearOpMode {
                     2); // Thickness of the rectangle lines
 
             // Record our analysis
-            if(avg1 > ONE_POSITION_THRESHOLD){
-                position = SleevePosition.ONE;
+            if(avg1 > THREE_POSITION_THRESHOLD){
+                position = SleevePosition.THREE;
             }else if (avg1 > TWO_POSITION_THRESHOLD){
                 position = SleevePosition.TWO;
             }else{
-                position = SleevePosition.THREE;
+                position = SleevePosition.ONE;
             }
 
             return input;
