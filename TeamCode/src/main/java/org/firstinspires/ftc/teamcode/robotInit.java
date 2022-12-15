@@ -22,6 +22,7 @@ public class robotInit {
 
 //    public CRServo spinner; // spins the motor to bring in the cone
     public Servo closer; // clamp and release cone
+    public Servo closerTwo; // clamp and release cone
 
     //from Encoder Sample
     double     COUNTS_PER_MOTOR_REV    = 537.7 ;
@@ -60,7 +61,7 @@ public class robotInit {
         motorFR.setDirection(DcMotor.Direction.FORWARD);
         motorBL.setDirection(DcMotor.Direction.REVERSE);
         motorBR.setDirection(DcMotor.Direction.FORWARD);
-        armLiftLeft.setDirection(DcMotor.Direction.FORWARD);
+        armLiftLeft.setDirection(DcMotor.Direction.REVERSE);
         armLiftRight.setDirection(DcMotor.Direction.FORWARD);
         waiter.setDirection(DcMotor.Direction.REVERSE);
 
@@ -88,6 +89,7 @@ public class robotInit {
         // Define and initialize ALL installed servos.
 //        spinner = hardwareMap.get(CRServo.class, "spinner");
         closer = hardwareMap.get(Servo.class, "closer");
+        closerTwo = hardwareMap.get(Servo.class, "closerTwo");
 
         //init servos
         //freightSnatcher1.setPosition(0.72);
