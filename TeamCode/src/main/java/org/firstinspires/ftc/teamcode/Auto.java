@@ -23,10 +23,10 @@ public class Auto extends LinearOpMode {
     public robotInit robot = new robotInit();
     ElapsedTime runtime = new ElapsedTime();
 
-    OpenCvCamera webcam;
-    SkystoneDeterminationPipeline pipeline;
+    int location; //for storing location after detection
 
-    //test comment
+    OpenCvCamera webcam;
+    DeterminationPipeline pipeline;
 
     @Override
     public void runOpMode() {
@@ -36,7 +36,7 @@ public class Auto extends LinearOpMode {
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "webcam"), cameraMonitorViewId);
 
-        pipeline = new SkystoneDeterminationPipeline();
+        pipeline = new DeterminationPipeline();
         webcam.setPipeline(pipeline);
 
         resetEncoder();
@@ -63,265 +63,75 @@ public class Auto extends LinearOpMode {
         waitForStart();
 
 
-        /* Telemetry for testing ring detection
-        while (opModeIsActive())
-        {
+        // Telemetry for testing ring detection
+        while (opModeIsActive()) {
             telemetry.addData("Analysis", pipeline.getAnalysis());
             telemetry.addData("Position", pipeline.position);
             telemetry.update();
 
             // Don't burn CPU cycles busy-looping in this sample
             sleep(50);
+
+        //Step 1: Detect location
+            if (pipeline.position == DeterminationPipeline.SleevePosition.ONE) {
+                telemetry.addData("Detected", "location 1!");
+                telemetry.update();
+
+                location = 1;
+
+            } else if (pipeline.position == DeterminationPipeline.SleevePosition.TWO) {
+                telemetry.addData("Detected", "location 2!");
+                telemetry.update();
+
+                location = 2;
+
+            } else {
+                telemetry.addData("Detected", "location 3!");
+                telemetry.update();
+
+                location = 3;
+
+            }
+            sleep(1000);
+
+        // Step 2: Park
+            if (location == 1) {
+                telemetry.addData("Moving to", "level 1!");
+                telemetry.update();
+
+             //strafe left
+
+             //drive forward
+
+            } else if (location == 2) {
+                telemetry.addData("Moving to", "level 2!");
+                telemetry.update();
+
+             //drive forward
+
+            } else {
+                telemetry.addData("Moving to", "level 3!");
+
+             //strafe right
+
+             //drive forward
+
+            }
+
+            // Stop, take a well deserved breather
+            sleep(1000);     // pause for servos to move
+
+            telemetry.addData("Path", "Complete");
+            telemetry.update();
         }
-        */
 
-
-//        //pick up wobble goal
-//        pickUpWobble();
-//
-//
-//        //Place wobble goal in the correct target zone
-//        if (pipeline.position == SkystoneDeterminationPipeline.RingPosition.FOUR) {
-//            telemetry.addData("Detected", "four rings!");
-//            telemetry.update();
-
-//            //clear the rings
-//            moveRight(8);
-//
-//            //move to launch line
-//            moveForward(58);
-//
-//            //center robot to front of goal
-//            moveLeft(10);
-//
-//            //launch 3 preloaded rings with more time between shots
-//            robot.pitcherMotor.setPower(0); //power off flywheel
-//
-//            //turn to face C box
-//            robot.armLift.setVelocity(2085); //0.6257 mid, 0.65 speed when 11.8 V, 0.67 when 11.7 V, 0.69 when 10.22 V
-//            runtime.reset();
-//            while (opModeIsActive() && (runtime.seconds() < 2.5)) { }
-//
-//            for (int i = 0; i < 3; i++){ //launch
-//                telemetry.addData("Launching High Ring #", i+1);
-//                telemetry.update();
-//
-//                //servo pushes ring forward
-//                robot.ringFlicker.setPosition(0.5);
-//                runtime.reset();
-//                while (opModeIsActive() && (runtime.seconds() < 1)) { }
-//
-//                //bring flicker back
-//                robot.ringFlicker.setPosition(0.25);
-//                runtime.reset();
-//                while (opModeIsActive() && (runtime.seconds() < 1)) { }
-//            }
-//            turnleft(8);
-//
-//            //move to box
-//            moveForward(65);
-//
-//            //Place the wobble goal
-//            dropWobbleGoal();
-//            runtime.reset();
-//            while (opModeIsActive() && (runtime.seconds() < 1.5)) {
-//            }
-//
-//            //drive to parking line
-//            moveBackward(50);
-//        }
-//
-//
-//        else if (pipeline.position == SkystoneDeterminationPipeline.RingPosition.ONE) {
-//
-//            telemetry.addData("Detected", "one ring"); //1 = B, middle
-//            telemetry.update();
-//
-//            //move to launch line
-//            moveForward(56);
-//
-//            //launch 3 preloaded rings
-//            launchRingHigh(3);
-//
-//            moveLeft(16);
-//
-//            raise(20);
-//            moveForward(30);
-//
-//            //Place the wobble goal
-//            dropWobbleGoal();
-//            runtime.reset();
-//            while (opModeIsActive() && (runtime.seconds() < 1.5)) {
-//            }
-//
-//            raise(120);
-//
-//            moveBackward(15);
-//
-//            //angle to 2nd wobble
-//            turnleft(44);
-//
-//
-//            lower(120);
-//            moveForward(43);
-//
-//            //pick up wobble without raising first
-//            robot.wobbleSnatcher.setPosition(0.3);
-//
-//            runtime.reset();
-//            while (opModeIsActive() && runtime.seconds() < 0.5) { }
-//            raise(150);
-//
-//            runtime.reset();
-//            while (opModeIsActive() && runtime.seconds() < 0.1) { }
-//
-//            moveBackward(50);
-//
-//            turnright(40);
-//
-//            dropWobbleGoal();
-//        }
-//
-//
-//        else if (pipeline.position == SkystoneDeterminationPipeline.RingPosition.NONE) {
-//            telemetry.addData("Detected", "no rings");
-//            telemetry.update();
-//
-//            //move to launch line
-//            moveForward(56);
-//
-//
-//            //launch 3 preloaded rings
-//            launchRingHigh(3);
-//
-//            turnleft(20); //90 deg, 15 before angle to ramp
-//            raise(90);
-//            moveForward(30);
-//
-//            //Place the wobble goal
-//            dropWobbleGoal();
-//            runtime.reset();
-//            while (opModeIsActive() && (runtime.seconds() < 1.5)) {
-//            }
-//
-//            raise(90);
-//
-//            turnleft(29); // 29 before
-//
-//
-//            lower(120);
-//
-//            moveForward(36);
-//            sleep(1000);
-//
-//            //pick up wobble without raising first
-//            robot.wobbleSnatcher.setPosition(0.3);
-//
-//            runtime.reset();
-//            while (opModeIsActive() && runtime.seconds() < 0.5) { }
-//            raise(150);
-//
-//            runtime.reset();
-//            while (opModeIsActive() && runtime.seconds() < 0.1) { }
-//            telemetry.addData("The Wobble Goal", "Has Risen");
-//            telemetry.update();
-//
-//            turnright(4.5); //4 before
-//
-//            moveBackward(45);
-//
-//            turnright(19); //90 deg
-//
-//            //Place the wobble goal
-//            dropWobbleGoal();
-//
-//
-//
-//        }
-
-        // Stop, take a well deserved breather
-        sleep(1000);     // pause for servos to move
-
-        telemetry.addData("Path", "Complete");
-        telemetry.update();
 
     }
 
 
-
-
-
     /* FUNCTIONS */
 
-    /* ENCODER FUNCTIONS */
 
-
-//    /* ARM MOVEMENT */
-//    public void raise(double count) {
-//
-//        int newElbowMotorTarget;
-//
-//        // Determine new target position, and pass to motor controller
-//        newElbowMotorTarget = robot.elbowMotor.getCurrentPosition() + (int)(count);
-//        robot.elbowMotor.setTargetPosition(newElbowMotorTarget);
-//
-//        // Turn On RUN_TO_POSITION
-//        robot.elbowMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//
-//        robot.elbowMotor.setPower(0.3);
-//
-//        runtime.reset();
-//        while (opModeIsActive() && robot.elbowMotor.isBusy()) {
-//            // Display it for the driver.
-//            telemetry.addData("Path1",  "Running to %7d", newElbowMotorTarget);
-//            telemetry.update();
-//        }
-//
-//    }
-//
-//    public void lower(double count) {
-//
-//        int newElbowMotorTarget;
-//
-//        // Determine new target position, and pass to motor controller
-//        newElbowMotorTarget = robot.elbowMotor.getCurrentPosition() - (int) (count);
-//        robot.elbowMotor.setTargetPosition(newElbowMotorTarget);
-//
-//        // Turn On RUN_TO_POSITION
-//        robot.elbowMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//
-//        robot.elbowMotor.setPower(0.3);
-//
-//        runtime.reset();
-//        while (opModeIsActive() && robot.elbowMotor.isBusy()) {
-//            // Display it for the driver.
-//            telemetry.addData("Path1",  "Running to %7d", newElbowMotorTarget);
-//            telemetry.update();
-//        }
-//    }
-//
-//    public void pickUpWobble() {
-//
-//        //move into position
-//        raise(20);
-//        robot.wobbleSnatcher.setPosition(0.3);
-//
-//        runtime.reset();
-//        while (opModeIsActive() && runtime.seconds() < 1) { }
-//        raise(25);
-//
-//        runtime.reset();
-//        while (opModeIsActive() && runtime.seconds() < 1) { }
-//        telemetry.addData("The Wobble Goal", "Has Risen");
-//        telemetry.update();
-//
-//    }
-
-//    public void dropWobbleGoal() {
-//        lower(25);
-//        robot.wobbleSnatcher.setPosition(1); // open claw
-//    }
-//
     /* ENCODER FUNCTIONS */
     public void resetEncoder()
     {
@@ -342,7 +152,6 @@ public class Auto extends LinearOpMode {
         robot.armLiftLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.armLiftRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
-//
 
     /* MOVEMENT FUNCTIONS */
     public void moveForward(int inches) {
@@ -626,10 +435,10 @@ public class Auto extends LinearOpMode {
 
 
     /* VUFORIA CUSTOM SLEEVE DETECTION */
-    public static class SkystoneDeterminationPipeline extends OpenCvPipeline
+    public static class DeterminationPipeline extends OpenCvPipeline
     {
         /*
-         * An enum to define the skystone position
+         * An enum to define the sleeve position
          */
         public enum SleevePosition
         {
