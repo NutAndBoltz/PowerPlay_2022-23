@@ -41,14 +41,14 @@ public class RedRight extends LinearOpMode {
 
             //clamp and release cone with closer servo
             if (clamp) {
-                robot.closer.setPosition(.6); //clamp cone with closer servo
-                robot.closerTwo.setPosition(.3); //clamp cone with closer servo
+                robot.closerL.setPosition(.6); //clamp cone with closer servo
+                robot.closerR.setPosition(.3); //clamp cone with closer servo
                 telemetry.addData("Path1",  "clamp pressed");
                 telemetry.update();
             }
             if (release) {
-                robot.closer.setPosition(0.3); //release cone with closer servo
-                robot.closerTwo.setPosition(.9); //release cone with closer servo
+                robot.closerL.setPosition(0.3); //release cone with closer servo
+                robot.closerR.setPosition(.9); //release cone with closer servo
                 telemetry.addData("Path1",  "Release pressed");
                 telemetry.update();
             }
