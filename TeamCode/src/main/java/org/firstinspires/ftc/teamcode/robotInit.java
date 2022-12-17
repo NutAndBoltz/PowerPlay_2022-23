@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.Servo;
 
 
@@ -15,14 +14,18 @@ public class robotInit {
     public DcMotor motorFR;
     public DcMotor motorBL;
     public DcMotor motorBR;
-    public DcMotor armLiftLeft; //arm lifting mechanism
-    public DcMotor armLiftRight; //arm lifting mechanism
-    public DcMotor waiter; //the thing that spins the arm like a turntable
+    public DcMotor armLiftLeft;
+    public DcMotor armLiftRight;
+    public DcMotor waiter;
+//    public DcMotor armLift; //arm lifting mechanism
 
 
-//    public CRServo spinner; // spins the motor to bring in the cone
-    public Servo closerL; // clamp and release cone
-    public Servo closerR; // clamp and release cone
+//  Servos intilization (Claw left and right part)
+//    Keep cone in place
+
+    public Servo closerL;
+    public Servo closerR;
+
 
     //from Encoder Sample
     double     COUNTS_PER_MOTOR_REV    = 537.7 ;
@@ -56,14 +59,17 @@ public class robotInit {
         armLiftRight = hardwareMap.get(DcMotor.class, "armLiftRight");
         waiter = hardwareMap.get(DcMotor.class, "waiter");
 
+//        spinner = hardwareMap.get(DcMotor.class, "spinner");
+
         // Set the direction of the DC motors
         motorFL.setDirection(DcMotor.Direction.REVERSE);
         motorFR.setDirection(DcMotor.Direction.FORWARD);
         motorBL.setDirection(DcMotor.Direction.REVERSE);
         motorBR.setDirection(DcMotor.Direction.FORWARD);
-        armLiftLeft.setDirection(DcMotor.Direction.REVERSE);
-        armLiftRight.setDirection(DcMotor.Direction.FORWARD);
-        waiter.setDirection(DcMotor.Direction.REVERSE);
+        armLiftLeft.setDirection(DcMotor.Direction.FORWARD); //Not sure which direction
+        armLiftRight.setDirection(DcMotor.Direction.REVERSE); //Not sure which direction
+        waiter.setDirection(DcMotor.Direction.REVERSE); //Not sure which direction
+
 
         // Set all DC motors to zero power
         motorBL.setPower(0);
@@ -81,19 +87,17 @@ public class robotInit {
         motorBL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorBR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorFR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        armLiftLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        armLiftRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        waiter.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        waiter.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); // Not sure
+        armLiftLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); //Not sure
+        armLiftRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); //Not sure
 
 
         // Define and initialize ALL installed servos.
-//        spinner = hardwareMap.get(CRServo.class, "spinner");
         closerL = hardwareMap.get(Servo.class, "closerL");
         closerR = hardwareMap.get(Servo.class, "closerR");
 
-        //init servos
-        //freightSnatcher1.setPosition(0.72);
-        //freightSnatcher2.setPosition(0.4);
+
+
 
     }
 }

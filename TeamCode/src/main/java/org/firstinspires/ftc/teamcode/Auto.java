@@ -174,9 +174,9 @@ public class Auto extends LinearOpMode {
         static final int REGION_WIDTH = 50;
         static final int REGION_HEIGHT = 60;
 
-        //ALL WHITE Analysis: 136, 105, 139, 143
-        //HALF GREEN Analysis: 111, 115, 105
-        //ALL GREEN Analysis: 91, 80, 78
+        //Position 3: ALL WHITE Analysis: 136, 105, 139, 143, 137
+        //Position 2: HALF GREEN Analysis: 111, 115, 105, 109, 111, 108,
+        //Position 1: ALL GREEN Analysis: 91, 80, 78, 73
 
         final int THREE_POSITION_THRESHOLD = 125;
         final int TWO_POSITION_THRESHOLD = 80;
