@@ -1,60 +1,80 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.opencv.core.Core;
-import org.opencv.core.Mat;
-import org.opencv.core.Point;
-import org.opencv.core.Rect;
-import org.opencv.core.Scalar;
-import org.opencv.imgproc.Imgproc;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
-import org.openftc.easyopencv.OpenCvPipeline;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 
-@Autonomous(name="Auto", group="Pushbot")
-public class Auto extends LinearOpMode {
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
+
+
+
+import java.util.ArrayList;
+
+@Autonomous(name="AprilTags", group="Pushbot")
+public class AprilTags extends LinearOpMode
+{
+    //INTRODUCE VARIABLES HERE
 
     public robotInit robot = new robotInit();
     ElapsedTime runtime = new ElapsedTime();
+    OpenCvCamera camera;
+    AprilTagDetectionPipeline aprilTagDetectionPipeline;
 
-    int location; //for storing location after detection
+    static final double FEET_PER_METER = 3.28084;
 
-    OpenCvCamera webcam;
-    DeterminationPipeline pipeline;
+    // Lens intrinsics
+    // UNITS ARE PIXELS
+    // NOTE: this calibration is for the C920 webcam at 800x448.
+    // You will need to do your own calibration for other configurations!
+    double fx = 578.272;
+    double fy = 578.272;
+    double cx = 402.145;
+    double cy = 221.506;
+
+    // UNITS ARE METERS
+    double tagsize = 0.166;
+
+    // Tag ID 1,2,3 from the 36h11 family
+    /*EDIT IF NEEDED!!!*/
+
+    int LEFT = 1;
+    int MIDDLE = 2;
+    int RIGHT = 3;
+
+    AprilTagDetection tagOfInterest = null;
 
     @Override
-    public void runOpMode() {
-
+    public void runOpMode()
+    {
         robot.init(hardwareMap);
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "webcam"), cameraMonitorViewId);
+        camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "webcam"), cameraMonitorViewId);
+        aprilTagDetectionPipeline = new AprilTagDetectionPipeline(tagsize, fx, fy, cx, cy);
 
-        pipeline = new DeterminationPipeline();
-        webcam.setPipeline(pipeline);
-
-        resetEncoder();
-        startEncoderMode();
-
-        webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
+        camera.setPipeline(aprilTagDetectionPipeline);
+        camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
         {
             @Override
             public void onOpened()
             {
-                webcam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
+                camera.startStreaming(800,448, OpenCvCameraRotation.UPRIGHT);
             }
 
             @Override
-            public void onError(int errorCode) {
+            public void onError(int errorCode)
+            {
 
             }
         });
+
+        telemetry.setMsTransmissionInterval(50);
 
 
         // Wait for the game to start (driver presses PLAY)
@@ -63,204 +83,144 @@ public class Auto extends LinearOpMode {
         waitForStart();
 
 
-        // Telemetry for testing ring detection
-        while (opModeIsActive()) {
-            telemetry.addData("Analysis", pipeline.getAnalysis());
-            telemetry.addData("Position", pipeline.position);
-            telemetry.update();
 
-            // Don't burn CPU cycles busy-looping in this sample
-            sleep(5000);
+        while (opModeIsActive())
+        {
+            ArrayList<AprilTagDetection> currentDetections = aprilTagDetectionPipeline.getLatestDetections();
 
-            //Step 1: Detect location
-            if (pipeline.position == DeterminationPipeline.SleevePosition.ONE) {
-                telemetry.addData("Detected", "location 1!");
-                telemetry.addData("Analysis", pipeline.getAnalysis());
-                telemetry.update();
+            if(currentDetections.size() != 0)
+            {
+                boolean tagFound = false;
 
-                location = 1;
+                for(AprilTagDetection tag : currentDetections)
+                {
+                    if(tag.id == LEFT || tag.id == MIDDLE || tag.id == RIGHT)
+                    {
+                        tagOfInterest = tag;
+                        tagFound = true;
+                        break;
+                    }
+                }
 
-            } else if (pipeline.position == DeterminationPipeline.SleevePosition.TWO) {
-                telemetry.addData("Detected", "location 2!");
-                telemetry.addData("Analysis", pipeline.getAnalysis());
-                telemetry.update();
+                if(tagFound)
+                {
+                    telemetry.addLine("Tag of interest is in sight!\n\nLocation data:");
+                    tagToTelemetry(tagOfInterest);
+                    sleep(2000);
 
-                location = 2;
+                }
+                else
+                {
+                    telemetry.addLine("Don't see tag of interest :(");
 
-            } else if (pipeline.position == DeterminationPipeline.SleevePosition.THREE){
-                telemetry.addData("Detected", "location 3!");
-                telemetry.addData("Analysis", pipeline.getAnalysis());
-                telemetry.update();
+                    if(tagOfInterest == null)
+                    {
+                        telemetry.addLine("(The tag has never been seen)");
+                    }
+                    else
+                    {
+                        telemetry.addLine("\nBut we HAVE seen the tag before; last seen at:");
+                        tagToTelemetry(tagOfInterest);
+                    }
+                }
 
-                location = 3;
-
-            } else {
-                telemetry.addData("Detected", "Unknown position");
             }
-            sleep(5000);
+            else
+            {
+                telemetry.addLine("Don't see tag of interest :(");
 
-            // Step 2: Park
-            if (location == 1) {
-                telemetry.addData("Moving to", "level 1!");
-                telemetry.addData("Analysis", pipeline.getAnalysis());
+                if(tagOfInterest == null)
+                {
+                    telemetry.addLine("(The tag has never been seen)");
+                }
+                else
+                {
+                    telemetry.addLine("\nBut we HAVE seen the tag before; last seen at:");
+                    tagToTelemetry(tagOfInterest);
+                }
+
+            }
+
+            telemetry.update();
+            sleep(20);
+
+            if(tagOfInterest != null)
+            {
+                telemetry.addLine("Tag snapshot:\n");
+                tagToTelemetry(tagOfInterest);
+                telemetry.update();
+                sleep(2000);
+
+            }
+            else
+            {
+                telemetry.addLine("No tag snapshot available, it was never sighted during the init loop :(");
+                telemetry.update();
+            }
+
+            //PUT AUTON CODE HERE (DRIVER PRESSED THE PLAY BUTTON!)
+
+            /* Actually do something useful */
+            if(tagOfInterest == null){
+                //default trajectory here if preferred
+                telemetry.addLine("Null: left trajectory");
                 telemetry.update();
 
-                //strafe left
-                moveLeft(30);
-                moveRight(2);
-                //drive forward
+                //left trajectory
+                //moveLeft(30);
+                //moveRight(2);
                 moveForward(28);
-
-//                moveForward(35);
-//                raise(10);
-//                turnright(15);
-//                moveForward(5);
-//                placeCone();
-//                moveBackward(25);
-//                moveRight(5);
+                turnright(20);
+                raise(60);
 
 
-
-
-            } else if (location == 2) {
-                telemetry.addData("Moving to", "level 2!");
-                telemetry.addData("Analysis", pipeline.getAnalysis());
+            }else if(tagOfInterest.id == LEFT){
+                //left trajectory
+                telemetry.addLine("Left trajectory");
                 telemetry.update();
 
-                //drive forward
+                moveForward(28);
+                turnright(20);
+                raise(60);
+
+//                moveLeft(30);
+//                moveRight(2);
+//                moveForward(28);
+
+            }else if(tagOfInterest.id == MIDDLE){
+                //middle trajectory
+                telemetry.addLine("Middle trajectory");
+                telemetry.update();
                 moveLeft(30);
                 moveRight(30);
                 moveForward(28);
 
-            } else {
-                telemetry.addData("Moving to", "level 3!");
-                telemetry.addData("Analysis", pipeline.getAnalysis());
+            }else{
+                //right trajectory
+                telemetry.addLine("Right trajectory");
                 telemetry.update();
-
-                //strafe left
                 moveLeft(30);
                 moveRight(60);
-                //drive forward
                 moveForward(28);
 
             }
 
-            // Stop, take a well deserved breather
-            //sleep(1000);     // pause for servos to move
-
-            telemetry.addData("Path", "Complete");
-            telemetry.update();
+            //stop robot
             stop();
 
         }
     }
 
 
-    /* FUNCTIONS */
-
-
-    /* CUSTOM SLEEVE DETECTION */
-    public static class DeterminationPipeline extends OpenCvPipeline
+    void tagToTelemetry(AprilTagDetection detection)
     {
-        /*
-         * An enum to define the sleeve position
-         */
-        public enum SleevePosition
-        {
-            ONE,
-            TWO,
-            THREE
-        }
-
-        /*
-         * Some color constants
-         */
-        static final Scalar BLUE = new Scalar(0, 0, 255);
-        static final Scalar GREEN = new Scalar(0, 255, 0);
-
-        /*
-         * The core values which define the location and size of the sample regions
-         */
-        //  static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(85,183);
-        static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(180,150);
-
-        static final int REGION_WIDTH = 30;
-        static final int REGION_HEIGHT = 40;
-
-        //Position 3: ALL WHITE Analysis: 136, 105, 139, 143, 137, 130, 145, 147, 155,
-        //Position 2: HALF GREEN Analysis: 111, 115, 105, 109, 111, 108, 124, 99
-        //Position 1: ALL GREEN Analysis: 91, 80, 78, 73, 116, 106,
-
-        final int THREE_POSITION_THRESHOLD = 130;
-        final int TWO_POSITION_THRESHOLD = 107;
-
-        Point region1_pointA = new Point(
-                REGION1_TOPLEFT_ANCHOR_POINT.x,
-                REGION1_TOPLEFT_ANCHOR_POINT.y);
-        Point region1_pointB = new Point(
-                REGION1_TOPLEFT_ANCHOR_POINT.x + REGION_WIDTH,
-                REGION1_TOPLEFT_ANCHOR_POINT.y + REGION_HEIGHT);
-
-        /*
-         * Working variables
-         */
-        Mat region1_Cb;
-        Mat YCrCb = new Mat();
-        Mat Cb = new Mat();
-        int avg1;
-
-        // Volatile since accessed by OpMode thread w/o synchronization
-        //Create position object and set default value
-        public volatile SleevePosition position = SleevePosition.ONE;
-
-        /*
-         * This function takes the RGB frame, converts to YCrCb,
-         * and extracts the Cb channel to the 'Cb' variable
-         */
-        void inputToCb(Mat input)
-        {
-            Imgproc.cvtColor(input, YCrCb, Imgproc.COLOR_RGB2YCrCb);
-            Core.extractChannel(YCrCb, Cb, 0);
-        }
-
-        @Override
-        public void init(Mat firstFrame)
-        {
-            inputToCb(firstFrame);
-
-            region1_Cb = Cb.submat(new Rect(region1_pointA, region1_pointB));
-        }
-
-        @Override
-        public Mat processFrame(Mat input)
-        {
-            inputToCb(input);
-
-            avg1 = (int) Core.mean(region1_Cb).val[0];
-
-            Imgproc.rectangle(
-                    input, // Buffer to draw on
-                    region1_pointA, // First point which defines the rectangle
-                    region1_pointB, // Second point which defines the rectangle
-                    BLUE, // The color the rectangle is drawn in
-                    2); // Thickness of the rectangle lines
-
-            // Record our analysis
-            if(avg1 > THREE_POSITION_THRESHOLD){
-                position = SleevePosition.THREE;
-            }else if (avg1 > TWO_POSITION_THRESHOLD){
-                position = SleevePosition.TWO;
-            }else{
-                position = SleevePosition.ONE;
-            }
-
-            return input;
-        }
-
-        public int getAnalysis()
-        {
-            return avg1;
-        }
+        telemetry.addLine(String.format("\nDetected tag ID=%d", detection.id));
+        telemetry.addLine(String.format("Translation X: %.2f feet", detection.pose.x*FEET_PER_METER));
+        telemetry.addLine(String.format("Translation Y: %.2f feet", detection.pose.y*FEET_PER_METER));
+        telemetry.addLine(String.format("Translation Z: %.2f feet", detection.pose.z*FEET_PER_METER));
+        telemetry.addLine(String.format("Rotation Yaw: %.2f degrees", Math.toDegrees(detection.pose.yaw)));
+        telemetry.addLine(String.format("Rotation Pitch: %.2f degrees", Math.toDegrees(detection.pose.pitch)));
+        telemetry.addLine(String.format("Rotation Roll: %.2f degrees", Math.toDegrees(detection.pose.roll)));
     }
 
     /* ENCODER FUNCTIONS */
@@ -565,29 +525,55 @@ public class Auto extends LinearOpMode {
 
         robot.armLiftLeft.setPower(Math.abs(robot.DRIVE_SPEED));
         robot.armLiftRight.setPower(Math.abs(robot.DRIVE_SPEED));
+        runtime.reset();
+        while (opModeIsActive() && (robot.armLiftLeft.isBusy() || robot.armLiftRight.isBusy())) {
+            // Display it for the driver.
+            telemetry.addData("Path1",  "Running to %7d :%7d", newArmLiftLeftTarget, newArmLiftRightTarget);
+            telemetry.update();
+        }
+
+        // Stop all motion;
+        stopRobot();
+
+        // Turn off RUN_TO_POSITION
+        robot.armLiftLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.armLiftRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
     }
 
     //LOWER ARM FUNCTION
-        public void lower(double count) {
+    public void lower(double count) {
 
-            int newArmLiftRightTarget;
-            int newArmLiftLeftTarget;
+        int newArmLiftRightTarget;
+        int newArmLiftLeftTarget;
 
-            // Determine new target position, and pass to motor controller
-            newArmLiftRightTarget = robot.armLiftRight.getCurrentPosition() - (int) (count);
-            newArmLiftLeftTarget = robot.armLiftLeft.getCurrentPosition() - (int) (count);
-            robot.armLiftRight.setTargetPosition(newArmLiftRightTarget);
-            robot.armLiftLeft.setTargetPosition(newArmLiftLeftTarget);
+        // Determine new target position, and pass to motor controller
+        newArmLiftRightTarget = robot.armLiftRight.getCurrentPosition() - (int) (count);
+        newArmLiftLeftTarget = robot.armLiftLeft.getCurrentPosition() - (int) (count);
+        robot.armLiftRight.setTargetPosition(newArmLiftRightTarget);
+        robot.armLiftLeft.setTargetPosition(newArmLiftLeftTarget);
 
-            // Turn On RUN_TO_POSITION
-            robot.armLiftRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.armLiftLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        // Turn On RUN_TO_POSITION
+        robot.armLiftRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.armLiftLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-            robot.armLiftRight.setPower(Math.abs(robot.DRIVE_SPEED));
-            robot.armLiftLeft.setPower(Math.abs(robot.DRIVE_SPEED));
-
+        robot.armLiftRight.setPower(Math.abs(robot.DRIVE_SPEED));
+        robot.armLiftLeft.setPower(Math.abs(robot.DRIVE_SPEED));
+        runtime.reset();
+        while (opModeIsActive() && (robot.armLiftLeft.isBusy() || robot.armLiftRight.isBusy())) {
+            // Display it for the driver.
+            telemetry.addData("Path1",  "Running to %7d :%7d", newArmLiftLeftTarget, newArmLiftRightTarget);
+            telemetry.update();
         }
+
+        // Stop all motion;
+        stopRobot();
+
+        // Turn off RUN_TO_POSITION
+        robot.armLiftLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.armLiftRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+    }
 
     public void stopRobot() {
         robot.motorFL.setPower(0);
@@ -598,35 +584,35 @@ public class Auto extends LinearOpMode {
 
 
     public void placeCone(){
-            //move motor down
-            robot.armLiftLeft.setPower(0.2);
-            robot.armLiftRight.setPower(0.2);
-            runtime.reset();
-            while (runtime.seconds() < 0.6){
-            }
-
-            //unclamp servo
-            robot.armLiftLeft.setPower(0);
-            robot.armLiftRight.setPower(0);
-            robot.closerL.setPosition(0.5);
-            robot.closerR.setPosition(0);
-
-
-            //wait
-            runtime.reset();
-            while (runtime.seconds() < 1){
-            }
-
-            //move arm back down
-            robot.armLiftRight.setPower(-0.2);
-            robot.armLiftLeft.setPower(-0.2);
-            runtime.reset();
-            while (runtime.seconds() < 0.5){
-            }
-
-            robot.armLiftLeft.setPower(0);
-            robot.armLiftRight.setPower(0);
+        //move motor down
+        robot.armLiftLeft.setPower(0.2);
+        robot.armLiftRight.setPower(0.2);
+        runtime.reset();
+        while (runtime.seconds() < 0.6){
         }
+
+        //unclamp servo
+        robot.armLiftLeft.setPower(0);
+        robot.armLiftRight.setPower(0);
+        robot.closerL.setPosition(0.5);
+        robot.closerR.setPosition(0);
+
+
+        //wait
+        runtime.reset();
+        while (runtime.seconds() < 1){
+        }
+
+        //move arm back down
+        robot.armLiftRight.setPower(-0.2);
+        robot.armLiftLeft.setPower(-0.2);
+        runtime.reset();
+        while (runtime.seconds() < 0.5){
+        }
+
+        robot.armLiftLeft.setPower(0);
+        robot.armLiftRight.setPower(0);
+    }
 
 
     public void stopRobot(int seconds) {

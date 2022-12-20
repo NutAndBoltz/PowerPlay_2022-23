@@ -51,16 +51,14 @@ public class RedRight extends LinearOpMode {
             double armUp = -gamepad1.right_trigger; // brings linear slides up
 
             //SPINNER
-            double turntable = 0.20 * (-gamepad1.right_stick_x); // turning on the turntable
+            double turntable = (-gamepad1.right_stick_x); // turning on the turntable
             robot.waiter.setPower(turntable);
 
             //CLAW
-            boolean clamp = gamepad1.left_bumper; // clamps the closer servo
-            boolean release = gamepad1.right_bumper; // release the closer servo
+            boolean clamp = gamepad1.right_bumper; // clamps the closer servo
+            boolean release = gamepad1.left_bumper; // release the closer servo
 
             //turning is same, triggers raise/lower, bumpers open/close,
-
-
 
 
             //SLIDER
@@ -81,7 +79,7 @@ public class RedRight extends LinearOpMode {
             //clamp and release cone with closer servo PROBLEM WITH SERVOS
             if (clamp) {
                 robot.closerL.setPosition(0); //Rotates clockwise
-                robot.closerR.setPosition(.3); //Rotates clockwise
+                robot.closerR.setPosition(0.6); //Rotates clockwise
 //                robot.closerR.setPosition(0); //Rotates counterclockwise
                 telemetry.addData("CURRENT ACTION:", "clamp pressed");
                 telemetry.update();
