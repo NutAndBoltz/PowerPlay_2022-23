@@ -166,12 +166,12 @@ public class AprilTags extends LinearOpMode
                 telemetry.addLine("Null: left trajectory");
                 telemetry.update();
 
-                //left trajectory
-                //moveLeft(30);
-                //moveRight(2);
-                moveForward(28);
-                turnright(20);
-                raise(60);
+//                //left trajectory
+//                //moveLeft(30);
+//                //moveRight(2);
+//                moveForward(28);
+//                turnright(20);
+//                raise(60);
 
 
             }else if(tagOfInterest.id == LEFT){
@@ -179,29 +179,46 @@ public class AprilTags extends LinearOpMode
                 telemetry.addLine("Left trajectory");
                 telemetry.update();
 
-                moveForward(28);
-                turnright(20);
-                raise(60);
+                clampCone();
+                raise(5000);
+                moveForward(63);
+                moveRight(5);
+                runtime.reset();
+                while (opModeIsActive() && (runtime.seconds() < 3.0)) {
+                    telemetry.addData("Path", "Leg 1: %4.1f S Elapsed", runtime.seconds());
+                    telemetry.update();
+                }
+                releaseCone();
+                moveBackward(10);
+                lower(5000);
+                moveLeft(28);
 
-//                moveLeft(30);
-//                moveRight(2);
-//                moveForward(28);
 
             }else if(tagOfInterest.id == MIDDLE){
                 //middle trajectory
                 telemetry.addLine("Middle trajectory");
                 telemetry.update();
-                moveLeft(30);
-                moveRight(30);
-                moveForward(28);
+
+                clampCone();
+                moveForward(55);
+                raise(5000);
+                moveRight(5);
+                releaseCone();
+                moveBackward(25);
+
 
             }else{
                 //right trajectory
                 telemetry.addLine("Right trajectory");
                 telemetry.update();
-                moveLeft(30);
-                moveRight(60);
-                moveForward(28);
+
+                clampCone();
+                moveForward(55);
+                raise(5000);
+                moveRight(5);
+                releaseCone();
+                moveBackward(5);
+                moveRight(20);
 
             }
 
@@ -245,6 +262,21 @@ public class AprilTags extends LinearOpMode
     }
 
     /* MOVEMENT FUNCTIONS */
+
+    public void clampCone() {
+
+        robot.closerL.setPosition(0);
+        robot.closerR.setPosition(0.6);
+
+    }
+
+    public void releaseCone() {
+        robot.closerL.setPosition(.5); // open claw
+        robot.closerR.setPosition(0); // open claw
+    }
+
+
+
     public void moveForward(int inches) {
         int newmotorFLTarget;
         int newmotorFRTarget;
@@ -514,8 +546,8 @@ public class AprilTags extends LinearOpMode
         int newArmLiftRightTarget;
 
         // Determine new target position, and pass to motor controller
-        newArmLiftLeftTarget = robot.armLiftLeft.getCurrentPosition() + (int) (count);
-        newArmLiftRightTarget = robot.armLiftRight.getCurrentPosition() + (int) (count);
+        newArmLiftLeftTarget = robot.armLiftLeft.getCurrentPosition() - (int) (count);
+        newArmLiftRightTarget = robot.armLiftRight.getCurrentPosition() - (int) (count);
         robot.armLiftLeft.setTargetPosition(newArmLiftLeftTarget);
         robot.armLiftRight.setTargetPosition(newArmLiftRightTarget);
 
@@ -523,8 +555,8 @@ public class AprilTags extends LinearOpMode
         robot.armLiftLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.armLiftRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        robot.armLiftLeft.setPower(Math.abs(robot.DRIVE_SPEED));
-        robot.armLiftRight.setPower(Math.abs(robot.DRIVE_SPEED));
+        robot.armLiftLeft.setPower(Math.abs(robot.ARM_SPEED));
+        robot.armLiftRight.setPower(Math.abs(robot.ARM_SPEED));
         runtime.reset();
         while (opModeIsActive() && (robot.armLiftLeft.isBusy() || robot.armLiftRight.isBusy())) {
             // Display it for the driver.
@@ -548,8 +580,8 @@ public class AprilTags extends LinearOpMode
         int newArmLiftLeftTarget;
 
         // Determine new target position, and pass to motor controller
-        newArmLiftRightTarget = robot.armLiftRight.getCurrentPosition() - (int) (count);
-        newArmLiftLeftTarget = robot.armLiftLeft.getCurrentPosition() - (int) (count);
+        newArmLiftRightTarget = robot.armLiftRight.getCurrentPosition() + (int) (count);
+        newArmLiftLeftTarget = robot.armLiftLeft.getCurrentPosition() + (int) (count);
         robot.armLiftRight.setTargetPosition(newArmLiftRightTarget);
         robot.armLiftLeft.setTargetPosition(newArmLiftLeftTarget);
 
@@ -557,8 +589,8 @@ public class AprilTags extends LinearOpMode
         robot.armLiftRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.armLiftLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        robot.armLiftRight.setPower(Math.abs(robot.DRIVE_SPEED));
-        robot.armLiftLeft.setPower(Math.abs(robot.DRIVE_SPEED));
+        robot.armLiftRight.setPower(Math.abs(robot.ARM_SPEED));
+        robot.armLiftLeft.setPower(Math.abs(robot.ARM_SPEED));
         runtime.reset();
         while (opModeIsActive() && (robot.armLiftLeft.isBusy() || robot.armLiftRight.isBusy())) {
             // Display it for the driver.
@@ -583,36 +615,36 @@ public class AprilTags extends LinearOpMode
     }
 
 
-    public void placeCone(){
-        //move motor down
-        robot.armLiftLeft.setPower(0.2);
-        robot.armLiftRight.setPower(0.2);
-        runtime.reset();
-        while (runtime.seconds() < 0.6){
-        }
-
-        //unclamp servo
-        robot.armLiftLeft.setPower(0);
-        robot.armLiftRight.setPower(0);
-        robot.closerL.setPosition(0.5);
-        robot.closerR.setPosition(0);
-
-
-        //wait
-        runtime.reset();
-        while (runtime.seconds() < 1){
-        }
-
-        //move arm back down
-        robot.armLiftRight.setPower(-0.2);
-        robot.armLiftLeft.setPower(-0.2);
-        runtime.reset();
-        while (runtime.seconds() < 0.5){
-        }
-
-        robot.armLiftLeft.setPower(0);
-        robot.armLiftRight.setPower(0);
-    }
+//    public void placeCone(){
+//        //move motor down
+//        robot.armLiftLeft.setPower(0.2);
+//        robot.armLiftRight.setPower(0.2);
+//        runtime.reset();
+//        while (runtime.seconds() < 0.6){
+//        }
+//
+//        //unclamp servo
+//        robot.armLiftLeft.setPower(0);
+//        robot.armLiftRight.setPower(0);
+//        robot.closerL.setPosition(0.5);
+//        robot.closerR.setPosition(0);
+//
+//
+//        //wait
+//        runtime.reset();
+//        while (runtime.seconds() < 1){
+//        }
+//
+//        //move arm back down
+//        robot.armLiftRight.setPower(-0.2);
+//        robot.armLiftLeft.setPower(-0.2);
+//        runtime.reset();
+//        while (runtime.seconds() < 0.5){
+//        }
+//
+//        robot.armLiftLeft.setPower(0);
+//        robot.armLiftRight.setPower(0);
+//    }
 
 
     public void stopRobot(int seconds) {
