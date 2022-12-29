@@ -16,8 +16,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import java.util.ArrayList;
 
-@Autonomous(name="AprilTags", group="Pushbot")
-public class AprilTags extends LinearOpMode
+@Autonomous(name="RightAuto", group="Pushbot")
+public class RightAuto extends LinearOpMode
 {
     //INTRODUCE VARIABLES HERE
 
@@ -160,18 +160,16 @@ public class AprilTags extends LinearOpMode
 
             //PUT AUTON CODE HERE (DRIVER PRESSED THE PLAY BUTTON!)
 
+            placeCones();
+
             /* Actually do something useful */
             if(tagOfInterest == null){
                 //default trajectory here if preferred
-                telemetry.addLine("Null: left trajectory");
+                telemetry.addLine("Null: middle trajectory");
                 telemetry.update();
 
-//                //left trajectory
-//                //moveLeft(30);
-//                //moveRight(2);
-//                moveForward(28);
-//                turnright(20);
-//                raise(60);
+                //park middle
+                //stay
 
 
             }else if(tagOfInterest.id == LEFT){
@@ -179,19 +177,8 @@ public class AprilTags extends LinearOpMode
                 telemetry.addLine("Left trajectory");
                 telemetry.update();
 
-                clampCone();
-                raise(5000);
-                moveForward(63);
-                moveRight(5);
-                runtime.reset();
-                while (opModeIsActive() && (runtime.seconds() < 3.0)) {
-                    telemetry.addData("Path", "Leg 1: %4.1f S Elapsed", runtime.seconds());
-                    telemetry.update();
-                }
-                releaseCone();
-                moveBackward(10);
-                lower(5000);
-                moveLeft(28);
+                //park left
+                moveLeft(25);
 
 
             }else if(tagOfInterest.id == MIDDLE){
@@ -199,12 +186,8 @@ public class AprilTags extends LinearOpMode
                 telemetry.addLine("Middle trajectory");
                 telemetry.update();
 
-                clampCone();
-                moveForward(55);
-                raise(5000);
-                moveRight(5);
-                releaseCone();
-                moveBackward(25);
+                //park middle
+                //stay
 
 
             }else{
@@ -212,13 +195,8 @@ public class AprilTags extends LinearOpMode
                 telemetry.addLine("Right trajectory");
                 telemetry.update();
 
-                clampCone();
-                moveForward(55);
-                raise(5000);
-                moveRight(5);
-                releaseCone();
-                moveBackward(5);
-                moveRight(20);
+                //park right
+                moveRight(25);
 
             }
 
@@ -263,16 +241,41 @@ public class AprilTags extends LinearOpMode
 
     /* MOVEMENT FUNCTIONS */
 
+    public void placeCones() {
+        clampCone();
+        raise(500);
+        moveForward(75);
+        raise(4500);
+        moveLeft(5);
+        raise(-500);
+        releaseCone();
+        runtime.reset();
+        while (opModeIsActive() && runtime.seconds() < 3.0) {
+            telemetry.addData("Path", "Leg 1: %4.1f S Elapsed", runtime.seconds());
+            telemetry.update();
+        }
+        moveBackward(10);
+        lower(5000);
+    }
+
     public void clampCone() {
 
         robot.closerL.setPosition(0);
-        robot.closerR.setPosition(0.6);
+        runtime.reset();
+        while (opModeIsActive() && (runtime.seconds() < 3.0)) {
+            telemetry.addData("Path", "Leg 1: %4.1f S Elapsed", runtime.seconds());
+            telemetry.update();
+        }
 
     }
 
     public void releaseCone() {
         robot.closerL.setPosition(.5); // open claw
-        robot.closerR.setPosition(0); // open claw
+        runtime.reset();
+        while (opModeIsActive() && (runtime.seconds() < 3.0)) {
+            telemetry.addData("Path", "Leg 1: %4.1f S Elapsed", runtime.seconds());
+            telemetry.update();
+        }
     }
 
 
@@ -565,11 +568,11 @@ public class AprilTags extends LinearOpMode
         }
 
         // Stop all motion;
-        stopRobot();
+        //stopRobot();
 
         // Turn off RUN_TO_POSITION
-        robot.armLiftLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.armLiftRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        robot.armLiftLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        robot.armLiftRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
     }
 
@@ -599,11 +602,11 @@ public class AprilTags extends LinearOpMode
         }
 
         // Stop all motion;
-        stopRobot();
-
-        // Turn off RUN_TO_POSITION
-        robot.armLiftLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.armLiftRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        stopRobot();
+//
+//        // Turn off RUN_TO_POSITION
+//        robot.armLiftLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        robot.armLiftRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
     }
 

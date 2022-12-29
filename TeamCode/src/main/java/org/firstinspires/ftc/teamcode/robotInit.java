@@ -25,7 +25,7 @@ public class robotInit {
 //    Keep cone in place
 
     public Servo closerL;
-    public Servo closerR;
+    //public Servo closerR;
     public CRServo waiter;
 
 
@@ -34,7 +34,7 @@ public class robotInit {
     double     WHEEL_DIAMETER_INCHES   = 4.0 ;  // For figuring circumference
     double     COUNTS_PER_INCH         = COUNTS_PER_MOTOR_REV / (WHEEL_DIAMETER_INCHES * Math.PI); //42.789 counts per inch
     double     DRIVE_SPEED             = 0.55;
-    double     ARM_SPEED               = 0.65;
+    double     ARM_SPEED               = 0.45;
     double     teleOP_FORWARD_SPEED    = 1;
 
     /* local OpMode members. */
