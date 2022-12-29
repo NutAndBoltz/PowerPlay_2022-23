@@ -97,7 +97,7 @@ public class robotInit {
 
         // Define and initialize ALL installed servos.
         closerL = hardwareMap.get(Servo.class, "closerL");
-        closerR = hardwareMap.get(Servo.class, "closerR");
+      //closerR = hardwareMap.get(Servo.class, "closerR");
         waiter = hardwareMap.get(CRServo.class, "waiter");
 
 
