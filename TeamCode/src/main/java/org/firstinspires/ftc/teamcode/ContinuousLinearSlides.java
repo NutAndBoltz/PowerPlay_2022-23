@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 @TeleOp
-public class RedRight extends LinearOpMode {
+public class ContinuousLinearSlides extends LinearOpMode {
     public robotInit robot = new robotInit();
     ElapsedTime runtime = new ElapsedTime();
     //    public class releaseLeftClaw implements Runnable {
@@ -38,9 +38,9 @@ public class RedRight extends LinearOpMode {
         while (opModeIsActive()) {
             //VARIABLES INITIALIZATION
             //WHEELS
-            double vertical = 0.55*(-gamepad2.left_stick_y); //move forward, backward
-            double horizontal = 0.55*(gamepad2.left_stick_x); //move left, right
-            double turn = 0.55*(-gamepad2.right_stick_x); //turn left, right
+            double vertical = 0.80*(-gamepad2.left_stick_y); //move forward, backward
+            double horizontal = 0.80*(gamepad2.left_stick_x); //move left, right
+            double turn = 0.80*(-gamepad2.right_stick_x); //turn left, right
 
 
             //SLIDER
@@ -79,14 +79,14 @@ public class RedRight extends LinearOpMode {
             //clamp and release cone with closer servo PROBLEM WITH SERVOS
             if (clamp) {
                 robot.closerL.setPosition(0); //Rotates clockwise
-              //  robot.closerR.setPosition(0.6); //Rotates clockwise
+                // robot.closerR.setPosition(0.6); //Rotates clockwise
 //                robot.closerR.setPosition(0); //Rotates counterclockwise
                 telemetry.addData("CURRENT ACTION:", "clamp pressed");
                 telemetry.update();
             }
             if (release) {
                 robot.closerL.setPosition(0.5); //release cone with closer servo
-               // robot.closerR.setPosition(0.6); //release cone with closer servo
+                // robot.closerR.setPosition(0); //release cone with closer servo
 //                robot.closerR.setPosition(.5); //release cone with closer servo
                 telemetry.addData("CURRENT ACTION", "Release pressed");
                 telemetry.update();

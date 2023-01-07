@@ -260,7 +260,7 @@ public class LeftAuto extends LinearOpMode
 
     public void clampCone() {
 
-        robot.closerL.setPosition(0);
+        robot.closerL.setPosition(0.2);
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < 3.0)) {
             telemetry.addData("Path", "Leg 1: %4.1f S Elapsed", runtime.seconds());
@@ -568,11 +568,11 @@ public class LeftAuto extends LinearOpMode
         }
 
         // Stop all motion;
-        stopRobot();
+//        stopRobot();
 
         // Turn off RUN_TO_POSITION
-        robot.armLiftLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.armLiftRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        robot.armLiftLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        robot.armLiftRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
     }
 
