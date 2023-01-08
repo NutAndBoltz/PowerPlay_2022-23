@@ -164,14 +164,15 @@ public class RightAuto extends LinearOpMode
             /* Actually do something useful */
             if(tagOfInterest == null){
                 //default trajectory here if preferred
+                sleep(2000);
                 telemetry.addLine("Null: middle trajectory");
                 telemetry.update();
 
                 clampCone();
                 raise(500);
-                moveForward(64.5);
+                moveForward(65);
                 raise(2500);
-                moveLeft(9);
+                moveLeft(5);
                 raise(-200);
                 releaseCone();
 //        runtime.reset();
@@ -179,24 +180,25 @@ public class RightAuto extends LinearOpMode
 //            telemetry.addData("Path", "Leg 1: %4.1f S Elapsed", runtime.seconds());
 //            telemetry.update();
 //        }
-                moveRight(10);
+                moveRight(5);
                 lower(2500);
-                moveBackward(15);
+                moveBackward(12);
                 //park middle
                 //stay
 
 
             }else if(tagOfInterest.id == LEFT){
                 //left trajectory
+                sleep(2000);
                 telemetry.addLine("Left trajectory");
                 telemetry.update();
 
                 //park left
                 clampCone();
                 raise(500);
-                moveForward(64.5);
+                moveForward(65);
                 raise(2500);
-                moveLeft(9);
+                moveLeft(5);
                 raise(-200);
                 releaseCone();
 //        runtime.reset();
@@ -204,14 +206,15 @@ public class RightAuto extends LinearOpMode
 //            telemetry.addData("Path", "Leg 1: %4.1f S Elapsed", runtime.seconds());
 //            telemetry.update();
 //        }
-                moveRight(10);
+                moveRight(5);
                 lower(2500);
-                moveBackward(15);
-                moveLeft(25);
+                moveBackward(12);
+                moveLeft(30);
 
 
             }else if(tagOfInterest.id == MIDDLE){
                 //middle trajectory
+               sleep(2000);
                 telemetry.addLine("Middle trajectory");
                 telemetry.update();
 
@@ -219,9 +222,9 @@ public class RightAuto extends LinearOpMode
                 //stay
                 clampCone();
                 raise(500);
-                moveForward(64.5);
+                moveForward(65);
                 raise(2500);
-                moveLeft(9);
+                moveLeft(5);
                 raise(-200);
                 releaseCone();
 //        runtime.reset();
@@ -229,21 +232,22 @@ public class RightAuto extends LinearOpMode
 //            telemetry.addData("Path", "Leg 1: %4.1f S Elapsed", runtime.seconds());
 //            telemetry.update();
 //        }
-                moveRight(10);
+                moveRight(5);
                 lower(2500);
-                moveBackward(15);
+                moveBackward(12);
 
             }else{
                 //right trajectory
+                sleep(2000);
                 telemetry.addLine("Right trajectory");
                 telemetry.update();
 
                 //park right
                 clampCone();
                 raise(500);
-                moveForward(64.5);
+                moveForward(65);
                 raise(2500);
-                moveLeft(9);
+                moveLeft(5);
                 raise(-200);
                 releaseCone();
 //        runtime.reset();
@@ -251,10 +255,10 @@ public class RightAuto extends LinearOpMode
 //            telemetry.addData("Path", "Leg 1: %4.1f S Elapsed", runtime.seconds());
 //            telemetry.update();
 //        }
-                moveRight(10);
+                moveRight(5);
                 lower(2500);
-                moveBackward(15);
-                moveRight(25);
+                moveBackward(12);
+                moveRight(30);
 
             }
 
@@ -306,9 +310,9 @@ public class RightAuto extends LinearOpMode
     public void placeCones() {
         clampCone();
         raise(500);
-        moveForward(64.5);
+        moveForward(66);
         raise(2500);
-        moveLeft(9);
+        moveLeft(5);
         raise(-200);
         releaseCone();
 //        runtime.reset();

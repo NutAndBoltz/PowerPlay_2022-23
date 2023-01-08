@@ -158,9 +158,10 @@ public class LeftAuto extends LinearOpMode
                 telemetry.update();
             }
 
-            //PUT AUTON CODE HERE (DRIVER PRESSED THE PLAY BUTTON!)
+            //PUT AUTO CODE HERE (DRIVER PRESSED THE PLAY BUTTON!)
 
-            placeCones();
+            sleep(2000);
+//            placeCones();
 
             /* Actually do something useful */
             if(tagOfInterest == null){
@@ -169,8 +170,24 @@ public class LeftAuto extends LinearOpMode
                 telemetry.update();
 
                 //park middle
-                //stay
-
+//park right
+                raise(900);
+                moveLeft(30);
+                moveRight(2);
+                moveForward(55);
+                raise(-230);
+                moveLeft(4);
+                clampCone();
+                raise(500);
+                moveRight(7);
+                turnright(50);
+                moveRight(5);
+                moveForward(20);
+                moveLeft(3);
+                moveForward(2);
+                releaseCone();
+                moveBackward(5);
+                moveRight(10);
 
             }else if(tagOfInterest.id == LEFT){
                 //left trajectory
@@ -178,13 +195,47 @@ public class LeftAuto extends LinearOpMode
                 telemetry.update();
 
                 //park left
-                moveLeft(25);
 
+                raise(800);
+                moveLeft(25);
+                moveRight(3);
+                moveForward(55);
+                raise(-200);
+                clampCone();
+                raise(500);
+                moveBackward(7);
+                turnright(20);
+                moveRight(5);
+                moveForward(20);
+                moveLeft(3);
+                moveForward(2);
+                releaseCone();
+                moveBackward(5);
+                moveRight(10);
+                moveBackward(30);
 
             }else if(tagOfInterest.id == MIDDLE){
                 //middle trajectory
                 telemetry.addLine("Middle trajectory");
                 telemetry.update();
+
+                //park right
+                raise(800);
+                moveLeft(25);
+                moveRight(3);
+                moveForward(55);
+                raise(-200);
+                clampCone();
+                raise(500);
+                moveBackward(7);
+                turnright(20);
+                moveRight(5);
+                moveForward(20);
+                moveLeft(3);
+                moveForward(2);
+                releaseCone();
+                moveBackward(5);
+                moveRight(10);
 
                 //park middle
                 //stay
@@ -196,7 +247,28 @@ public class LeftAuto extends LinearOpMode
                 telemetry.update();
 
                 //park right
-                moveRight(25);
+                raise(800);
+                moveLeft(25);
+                moveRight(3);
+                moveForward(55);
+                raise(-200);
+                clampCone();
+                raise(500);
+                moveBackward(7);
+                turnright(20);
+                moveRight(5);
+                moveForward(20);
+                moveLeft(3);
+                moveForward(2);
+                releaseCone();
+                moveBackward(5);
+                moveRight(10);
+                moveForward(30);
+//        runtime.reset();
+//        while (opModeIsActive() && runtime.seconds() < 2.0) {
+//            telemetry.addData("Path", "Leg 1: %4.1f S Elapsed", runtime.seconds());
+//            telemetry.update();
+//        }
 
             }
 
@@ -244,18 +316,19 @@ public class LeftAuto extends LinearOpMode
     public void placeCones() {
         clampCone();
         raise(500);
-        moveForward(75);
-        raise(4500);
+        moveForward(64.5);
+        raise(2500);
         moveRight(5);
-        raise(-500);
+        raise(-200);
         releaseCone();
-        runtime.reset();
-        while (opModeIsActive() && runtime.seconds() < 3.0) {
-            telemetry.addData("Path", "Leg 1: %4.1f S Elapsed", runtime.seconds());
-            telemetry.update();
-        }
-        moveBackward(10);
-        lower(5000);
+//        runtime.reset();
+//        while (opModeIsActive() && runtime.seconds() < 2.0) {
+//            telemetry.addData("Path", "Leg 1: %4.1f S Elapsed", runtime.seconds());
+//            telemetry.update();
+//        }
+        moveLeft(5);
+        lower(2500);
+        moveBackward(12);
     }
 
     public void clampCone() {
@@ -280,7 +353,7 @@ public class LeftAuto extends LinearOpMode
 
 
 
-    public void moveForward(int inches) {
+    public void moveForward(double inches) {
         int newmotorFLTarget;
         int newmotorFRTarget;
         int newmotorBLTarget;
