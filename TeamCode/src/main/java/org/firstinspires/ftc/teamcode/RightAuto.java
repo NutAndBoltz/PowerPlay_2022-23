@@ -327,7 +327,7 @@ public class RightAuto extends LinearOpMode
 
     public void clampCone() {
 
-        robot.closerL.setPosition(0.2);
+        robot.closerL.setPosition(0);
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < 2.0)) {
             telemetry.addData("Path", "Leg 1: %4.1f S Elapsed", runtime.seconds());

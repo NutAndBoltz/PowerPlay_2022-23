@@ -47,8 +47,8 @@ public class RedRight extends LinearOpMode {
             boolean buttonY = gamepad1.y;
             boolean buttonA = gamepad1.a;
 
-            double armDown = 0.5*gamepad1.left_trigger; // brings linear slides down
-            double armUp = -gamepad1.right_trigger; // brings linear slides up
+            double armDown = -0.5*gamepad1.left_trigger; // brings linear slides down
+            double armUp = gamepad1.right_trigger; // brings linear slides up
 
             //SPINNER
             double turntable = (-gamepad1.right_stick_x); // turning on the turntable

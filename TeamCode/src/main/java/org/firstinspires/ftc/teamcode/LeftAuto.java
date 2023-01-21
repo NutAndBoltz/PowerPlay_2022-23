@@ -171,23 +171,39 @@ public class LeftAuto extends LinearOpMode
 
                 //park middle
 //park right
-                raise(900);
-                moveLeft(30);
-                moveRight(2);
-                moveForward(55);
-                raise(-230);
-                moveLeft(4);
+
                 clampCone();
-                raise(500);
-                moveRight(7);
-                turnright(50);
-                moveRight(5);
-                moveForward(20);
-                moveLeft(3);
-                moveForward(2);
+                raise(1);
+                moveForward(65);
+                raise(3);
+                moveLeft(5);
+                raise(2);
+
                 releaseCone();
-                moveBackward(5);
-                moveRight(10);
+                raise(3);
+                moveRight(5);
+                raise(0);
+                moveBackward(12);
+                //park middle
+                //stay
+
+//                raise(900);
+//                moveLeft(30);
+//                moveRight(2);
+//                moveForward(55);
+//                raise(-230);
+//                moveLeft(4);
+//                clampCone();
+//                raise(500);
+//                moveRight(7);
+//                turnright(50);
+//                moveRight(5);
+//                moveForward(20);
+//                moveLeft(3);
+//                moveForward(2);
+//                releaseCone();
+//                moveBackward(5);
+//                moveRight(10);
 
             }else if(tagOfInterest.id == LEFT){
                 //left trajectory
@@ -196,46 +212,77 @@ public class LeftAuto extends LinearOpMode
 
                 //park left
 
-                raise(800);
-                moveLeft(25);
-                moveRight(3);
-                moveForward(55);
-                raise(-200);
+                //park left
                 clampCone();
-                raise(500);
-                moveBackward(7);
-                turnright(20);
-                moveRight(5);
-                moveForward(20);
-                moveLeft(3);
-                moveForward(2);
+                raise(1);
+                moveForward(65);
+                raise(3);
+                moveLeft(5);
+                raise(2);
+
                 releaseCone();
-                moveBackward(5);
-                moveRight(10);
-                moveBackward(30);
+                raise(3);
+                moveRight(5);
+                raise(0);
+                moveBackward(12);
+                moveLeft(30);
+
+//                raise(800);
+//                moveLeft(25);
+//                moveRight(3);
+//                moveForward(55);
+//                raise(-200);
+//                clampCone();
+//                raise(500);
+//                moveBackward(7);
+//                turnright(20);
+//                moveRight(5);
+//                moveForward(20);
+//                moveLeft(3);
+//                moveForward(2);
+//                releaseCone();
+//                moveBackward(5);
+//                moveRight(10);
+//                moveBackward(30);
 
             }else if(tagOfInterest.id == MIDDLE){
                 //middle trajectory
                 telemetry.addLine("Middle trajectory");
                 telemetry.update();
 
-                //park right
-                raise(800);
-                moveLeft(25);
-                moveRight(3);
-                moveForward(55);
-                raise(-200);
+
+                //park middle
+                //stay
                 clampCone();
-                raise(500);
-                moveBackward(7);
-                turnright(20);
-                moveRight(5);
-                moveForward(20);
-                moveLeft(3);
-                moveForward(2);
+                raise(1);
+                moveForward(65);
+                raise(3);
+                moveLeft(5);
+                raise(2);
+
                 releaseCone();
-                moveBackward(5);
-                moveRight(10);
+                raise(3);
+                moveRight(5);
+                raise(0);
+                moveBackward(12);
+
+//                //park right
+//                raise(800);
+//                moveLeft(25);
+//                moveRight(3);
+//                moveForward(55);
+//                raise(-200);
+//                clampCone();
+//                raise(500);
+//                moveBackward(7);
+//                turnright(20);
+//                moveRight(5);
+//                moveForward(20);
+//                moveLeft(3);
+//                moveForward(2);
+//                releaseCone();
+//                moveBackward(5);
+//                moveRight(10);
 
                 //park middle
                 //stay
@@ -246,24 +293,46 @@ public class LeftAuto extends LinearOpMode
                 telemetry.addLine("Right trajectory");
                 telemetry.update();
 
+
                 //park right
-                raise(800);
-                moveLeft(25);
-                moveRight(3);
-                moveForward(55);
-                raise(-200);
                 clampCone();
-                raise(500);
-                moveBackward(7);
-                turnright(20);
-                moveRight(5);
-                moveForward(20);
-                moveLeft(3);
-                moveForward(2);
+                raise(1);
+                moveForward(65);
+                raise(3);
+                moveLeft(5);
+                raise(2);
+
                 releaseCone();
-                moveBackward(5);
-                moveRight(10);
-                moveForward(30);
+                raise(3);
+                moveRight(5);
+                raise(0);
+//        runtime.reset();
+//        while (opModeIsActive() && runtime.seconds() < 2.0) {
+//            telemetry.addData("Path", "Leg 1: %4.1f S Elapsed", runtime.seconds());
+//            telemetry.update();
+//        }
+
+                moveBackward(12);
+                moveRight(30);
+
+//                //park right
+//                raise(800);
+//                moveLeft(25);
+//                moveRight(3);
+//                moveForward(55);
+//                raise(-200);
+//                clampCone();
+//                raise(500);
+//                moveBackward(7);
+//                turnright(20);
+//                moveRight(5);
+//                moveForward(20);
+//                moveLeft(3);
+//                moveForward(2);
+//                releaseCone();
+//                moveBackward(5);
+//                moveRight(10);
+//                moveForward(30);
 //        runtime.reset();
 //        while (opModeIsActive() && runtime.seconds() < 2.0) {
 //            telemetry.addData("Path", "Leg 1: %4.1f S Elapsed", runtime.seconds());
@@ -333,7 +402,7 @@ public class LeftAuto extends LinearOpMode
 
     public void clampCone() {
 
-        robot.closerL.setPosition(0.2);
+        robot.closerL.setPosition(0);
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < 3.0)) {
             telemetry.addData("Path", "Leg 1: %4.1f S Elapsed", runtime.seconds());
@@ -615,30 +684,84 @@ public class LeftAuto extends LinearOpMode
         robot.motorBR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
-    //RAISE ARM FUNCTION
-    public void raise(double count) {
 
-        int newArmLiftLeftTarget;
-        int newArmLiftRightTarget;
+    public int SLIDER_SPEED = 10;
+    public int currentPosition = 0;
+
+    public void raise(int numberOfJunction) {
+        double currentSpeed = currentPosition<numberOfJunction? Math.abs(SLIDER_SPEED):Math.abs(SLIDER_SPEED)*0.2;
+        int[] positionSet;
+
+
+
+
+
+        int LOW_JUNCTION = 1100 + 135;
+        int MEDIUM_JUNCTION = LOW_JUNCTION+1050 - 50 ;
+        int HIGH_JUNCTION = MEDIUM_JUNCTION+1050 -50;
+
+//        int GROUND_JUNCTION = 125;
+        int GROUND_JUNCTION = 60;
+
+
+        // allocates memory for 10 integers
+        positionSet = new int[] {GROUND_JUNCTION, LOW_JUNCTION, MEDIUM_JUNCTION, HIGH_JUNCTION};
+
+
+        int newArmLiftTargetRight;
+        int newArmLiftTargetLeft;
+
 
         // Determine new target position, and pass to motor controller
-        newArmLiftLeftTarget = robot.armLiftLeft.getCurrentPosition() - (int) (count);
-        newArmLiftRightTarget = robot.armLiftRight.getCurrentPosition() - (int) (count);
-        robot.armLiftLeft.setTargetPosition(newArmLiftLeftTarget);
-        robot.armLiftRight.setTargetPosition(newArmLiftRightTarget);
+        newArmLiftTargetRight = positionSet[numberOfJunction];
+        newArmLiftTargetLeft =  positionSet[numberOfJunction];
+
+        robot.armLiftLeft.setTargetPosition(newArmLiftTargetLeft);
+        robot.armLiftRight.setTargetPosition(newArmLiftTargetRight);
 
         // Turn On RUN_TO_POSITION
         robot.armLiftLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.armLiftRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        robot.armLiftLeft.setPower(Math.abs(robot.ARM_SPEED));
-        robot.armLiftRight.setPower(Math.abs(robot.ARM_SPEED));
-        runtime.reset();
-        while (opModeIsActive() && (robot.armLiftLeft.isBusy() || robot.armLiftRight.isBusy())) {
+        robot.armLiftLeft.setPower(currentSpeed);
+        robot.armLiftRight.setPower(currentSpeed);
+
+        currentPosition = numberOfJunction;
+        while (opModeIsActive() && robot.armLiftLeft.isBusy() && robot.armLiftRight.isBusy()) {
             // Display it for the driver.
-            telemetry.addData("Path1",  "Running to %7d :%7d", newArmLiftLeftTarget, newArmLiftRightTarget);
+            telemetry.addData("CURRENT ACTION: ",  "RAISING TO THE " + numberOfJunction);
             telemetry.update();
+
+
         }
+
+    }
+
+
+//    //RAISE ARM FUNCTION
+//    public void raise(double count) {
+//
+//        int newArmLiftLeftTarget;
+//        int newArmLiftRightTarget;
+//
+//        // Determine new target position, and pass to motor controller
+//        newArmLiftLeftTarget = robot.armLiftLeft.getCurrentPosition() - (int) (count);
+//        newArmLiftRightTarget = robot.armLiftRight.getCurrentPosition() - (int) (count);
+//        robot.armLiftLeft.setTargetPosition(newArmLiftLeftTarget);
+//        robot.armLiftRight.setTargetPosition(newArmLiftRightTarget);
+//
+//        // Turn On RUN_TO_POSITION
+//        robot.armLiftLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        robot.armLiftRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//
+//        robot.armLiftLeft.setPower(Math.abs(robot.ARM_SPEED));
+//        robot.armLiftRight.setPower(Math.abs(robot.ARM_SPEED));
+//        runtime.reset();
+//        while (opModeIsActive() && (robot.armLiftLeft.isBusy() || robot.armLiftRight.isBusy())) {
+//            // Display it for the driver.
+//            telemetry.addData("Path1",  "Running to %7d :%7d", newArmLiftLeftTarget, newArmLiftRightTarget);
+//            telemetry.update();
+//        }
 
         // Stop all motion;
 //        stopRobot();
@@ -647,7 +770,7 @@ public class LeftAuto extends LinearOpMode
 //        robot.armLiftLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 //        robot.armLiftRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-    }
+//    }
 
     //LOWER ARM FUNCTION
     public void lower(double count) {

@@ -35,7 +35,7 @@ public class robotInit {
     double     COUNTS_PER_INCH         = COUNTS_PER_MOTOR_REV / (WHEEL_DIAMETER_INCHES * Math.PI); //42.789 counts per inch
     double     DRIVE_SPEED             = 0.65;
     double     ARM_SPEED_RISING        = 0.42;
-    double     ARM_SPEED_LOWER         = 0.15;
+    double     ARM_SPEED_LOWER         = 0.35;
     double     ARM_SPEED               = 0.45;
     double     teleOP_FORWARD_SPEED    = 1;
 
@@ -71,8 +71,8 @@ public class robotInit {
         motorFR.setDirection(DcMotor.Direction.FORWARD);
         motorBL.setDirection(DcMotor.Direction.REVERSE);
         motorBR.setDirection(DcMotor.Direction.FORWARD);
-        armLiftLeft.setDirection(DcMotor.Direction.FORWARD); //Not sure which direction
-        armLiftRight.setDirection(DcMotor.Direction.REVERSE); //Not sure which direction
+        armLiftLeft.setDirection(DcMotor.Direction.REVERSE); //Not sure which direction
+        armLiftRight.setDirection(DcMotor.Direction.FORWARD); //Not sure which direction
         //waiter.setDirection(DcMotor.Direction.REVERSE); //Not sure which direction
 
 
