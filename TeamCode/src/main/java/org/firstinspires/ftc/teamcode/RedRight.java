@@ -38,16 +38,16 @@ public class RedRight extends LinearOpMode {
         while (opModeIsActive()) {
             //VARIABLES INITIALIZATION
             //WHEELS
-            double vertical = 0.55*(-gamepad2.left_stick_y); //move forward, backward
-            double horizontal = 0.55*(gamepad2.left_stick_x); //move left, right
-            double turn = 0.55*(-gamepad2.right_stick_x); //turn left, right
+            double vertical = 0.8*(-gamepad2.left_stick_y); //move forward, backward
+            double horizontal = 0.8*(gamepad2.left_stick_x); //move left, right
+            double turn = 1*(-gamepad2.right_stick_x); //turn left, right
 
 
             //SLIDER
             boolean buttonY = gamepad1.y;
             boolean buttonA = gamepad1.a;
 
-            double armDown = gamepad1.left_trigger; // brings linear slides down
+            double armDown = 0.5*gamepad1.left_trigger; // brings linear slides down
             double armUp = -gamepad1.right_trigger; // brings linear slides up
 
             //SPINNER

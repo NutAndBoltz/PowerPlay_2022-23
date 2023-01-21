@@ -35,11 +35,11 @@ public class robotInit {
     double     COUNTS_PER_INCH         = COUNTS_PER_MOTOR_REV / (WHEEL_DIAMETER_INCHES * Math.PI); //42.789 counts per inch
     double     DRIVE_SPEED             = 0.65;
     double     ARM_SPEED_RISING        = 0.42;
-    double     ARM_SPEED_LOWER         = 0.37;
+    double     ARM_SPEED_LOWER         = 0.15;
     double     ARM_SPEED               = 0.45;
     double     teleOP_FORWARD_SPEED    = 1;
 
-    /* local OpMode members. */
+    /* local OpMode members */
     HardwareMap hardwareMap ;
 
     // instantiate = to create an instance of = constructor
